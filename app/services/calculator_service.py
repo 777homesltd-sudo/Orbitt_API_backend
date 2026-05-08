@@ -1,15 +1,3 @@
-Good. File 5a deployed. Two more small files and we're complete.
-File 5b of 5: Edit app/services/calculator_service.py
-This update teaches the calculator to accept the new override parameters. Three things change:
-
-calculate_str() accepts management_fee_pct and cleaning_pct as optional parameters
-The hardcoded 0.20 management fee becomes the new config default DEFAULT_STR_MANAGEMENT_FEE (25%)
-The flat-dollar cleaning calculation becomes a percentage-based one using DEFAULT_STR_CLEANING_PCT (10%)
-
-Everything else stays exactly the same.
-Here's the file
-Copy everything between START FILE and END FILE.
-START FILE
 """
 AirRev Engine — Investment Calculator Service
 All the financial math: Cap Rate, CoC Return, Cash Flow, GRM
