@@ -2,7 +2,6 @@
 AirRev Engine — Configuration
 All secrets via environment variables / .env file
 """
-
 from pydantic_settings import BaseSettings
 from typing import List
 
@@ -32,8 +31,10 @@ class Settings(BaseSettings):
     SMTP_USER: str = ""
     SMTP_PASSWORD: str = ""
 
-    # --- STR / Airbnb ---
-    AIRDNA_API_KEY: str = ""                # https://www.airdna.co/api
+    # --- STR / Airbnb Data Sources ---
+    AIRDNA_API_KEY: str = ""                # https://www.airdna.co/api (not in use)
+    AIRROI_API_KEY: str = ""                # https://www.airroi.com/api (primary)
+    AIRROI_API_URL: str = "https://api.airroi.com"
 
     # --- AI (optional) ---
     ANTHROPIC_API_KEY: str = ""
@@ -55,10 +56,14 @@ class Settings(BaseSettings):
     DEFAULT_DOWN_PAYMENT_PCT: float = 0.20
     DEFAULT_VACANCY_RATE_LTR: float = 0.04           # 4% Calgary LTR vacancy
     DEFAULT_VACANCY_RATE_STR: float = 0.30           # 30% STR vacancy (conservative)
-    DEFAULT_MANAGEMENT_FEE_LTR: float = 0.10         # 10% PM fee
+    DEFAULT_MANAGEMENT_FEE_LTR: float = 0.10         # 10% PM fee for LTR
     DEFAULT_AIRBNB_HOST_FEE: float = 0.03            # 3% Airbnb host fee
-    DEFAULT_STR_CLEANING_PER_STAY: float = 125.0     # CAD
-    DEFAULT_STR_STAYS_PER_MONTH: float = 8.0
+    DEFAULT_STR_CLEANING_PER_STAY: float = 125.0     # CAD (legacy, keep for compat)
+    DEFAULT_STR_STAYS_PER_MONTH: float = 8.0         # legacy, keep for compat
+
+    # --- AirRev STR cohost defaults (overridable from frontend) ---
+    DEFAULT_STR_MANAGEMENT_FEE: float = 0.25         # 25% cohost commission
+    DEFAULT_STR_CLEANING_PCT: float = 0.10           # 10% of revenue for cleaning
 
     class Config:
         env_file = ".env"
