@@ -190,6 +190,8 @@ async def analyze_listing(
             nightly_rate=nightly_rate,
             occupancy_rate=occupancy_rate,
             nearby_airbnbs=nearby_comps,
+            management_fee_pct=request.str_management_fee_pct,
+            cleaning_pct=request.str_cleaning_pct,
         )
 
     # ──────────────────────────────────────
