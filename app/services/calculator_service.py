@@ -1,3 +1,15 @@
+Good. File 5a deployed. Two more small files and we're complete.
+File 5b of 5: Edit app/services/calculator_service.py
+This update teaches the calculator to accept the new override parameters. Three things change:
+
+calculate_str() accepts management_fee_pct and cleaning_pct as optional parameters
+The hardcoded 0.20 management fee becomes the new config default DEFAULT_STR_MANAGEMENT_FEE (25%)
+The flat-dollar cleaning calculation becomes a percentage-based one using DEFAULT_STR_CLEANING_PCT (10%)
+
+Everything else stays exactly the same.
+Here's the file
+Copy everything between START FILE and END FILE.
+START FILE
 """
 AirRev Engine — Investment Calculator Service
 All the financial math: Cap Rate, CoC Return, Cash Flow, GRM
@@ -145,25 +157,38 @@ class InvestmentCalculator:
         nightly_rate: float,
         occupancy_rate: Optional[float] = None,
         nearby_airbnbs: Optional[list] = None,
+        management_fee_pct: Optional[float] = None,
+        cleaning_pct: Optional[float] = None,
     ) -> STRAnalysis:
-        vacancy = occupancy_rate or (1 - self.cfg.DEFAULT_VACANCY_RATE_STR)
         price = property.list_price
-        stays_per_month = self.cfg.DEFAULT_STR_STAYS_PER_MONTH
+        occupancy = occupancy_rate if occupancy_rate is not None else 0.70
+
+        # Allow per-request overrides; fall back to config defaults
+        mgmt_pct = (
+            management_fee_pct
+            if management_fee_pct is not None
+            else self.cfg.DEFAULT_STR_MANAGEMENT_FEE
+        )
+        clean_pct = (
+            cleaning_pct
+            if cleaning_pct is not None
+            else self.cfg.DEFAULT_STR_CLEANING_PCT
+        )
 
         # Revenue (nights booked)
-        nights_booked_per_year = 365 * occupancy_rate if occupancy_rate else 365 * 0.70
+        nights_booked_per_year = 365 * occupancy
         annual_gross = nightly_rate * nights_booked_per_year
-        vacancy_allowance = annual_gross * (1 - (occupancy_rate or 0.70))
+        vacancy_allowance = annual_gross * (1 - occupancy)
         egi = annual_gross
 
         # Expenses (STR has more ops costs)
         airbnb_fee = egi * self.cfg.DEFAULT_AIRBNB_HOST_FEE
-        cleaning = self.cfg.DEFAULT_STR_CLEANING_PER_STAY * stays_per_month * 12
+        cleaning = egi * clean_pct                   # 10% of revenue by default
         property_tax = self.estimate_property_tax(price, property.community)
-        insurance = price * 0.005            # STR insurance ~0.5% (higher than LTR)
-        maintenance = price * 0.015          # Higher wear and tear
-        mgmt_fee = egi * 0.20               # STR mgmt fees ~20%
-        supplies = 1200                      # Toiletries, linens replacement annual
+        insurance = price * 0.005                    # STR insurance ~0.5% (higher than LTR)
+        maintenance = price * 0.015                  # Higher wear and tear
+        mgmt_fee = egi * mgmt_pct                    # 25% cohost commission by default
+        supplies = 1200                              # Toiletries, linens replacement annual
 
         total_expenses = (
             airbnb_fee + cleaning + property_tax + insurance
@@ -191,7 +216,7 @@ class InvestmentCalculator:
 
         return STRAnalysis(
             estimated_nightly_rate=nightly_rate,
-            estimated_occupancy_rate=occupancy_rate or 0.70,
+            estimated_occupancy_rate=occupancy,
             annual_gross_revenue=round(annual_gross, 2),
             vacancy_allowance=round(vacancy_allowance, 2),
             effective_gross_income=round(egi, 2),
