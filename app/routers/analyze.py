@@ -1,9 +1,23 @@
 """
 AirRev Engine — Analyze Listing Router
 POST /analyze/listing  — The core AirRev Engine endpoint
+
+Request flow:
+1. Fetch property details from CREA DDF
+2. Geocode if coordinates are missing
+3. Check Supabase cache for nearby Airbnb comps (7-day freshness)
+4. If stale or missing, fetch fresh comps from AirROI and cache them
+5. Run mortgage math, LTR analysis, STR analysis using comp averages
+6. Generate investment recommendation (Strong Buy / Buy / Hold / Avoid)
+7. Return the full populated response
 """
 
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Request
+import logging
+from datetime import datetime, timedelta, timezone
+from typing import Optional
+
+from fastapi import APIRouter, Depends, HTTPException
+
 from app.core.security import require_api_key
 from app.models.schemas import (
     AnalyzeListingRequest,
@@ -13,87 +27,208 @@ from app.models.schemas import (
 from app.services.ddf_service import ddf_service
 from app.services.calculator_service import calculator
 from app.services.supabase_service import supabase
+from app.services.airroi_service import airroi
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
-from datetime import datetime, timedelta, timezone
 
-def is_stale(last_scraped):
+def _is_stale(last_scraped, days: int = 7) -> bool:
+    """Check whether a cached comp is older than the freshness window."""
     if not last_scraped:
         return True
-    # last_scraped expected as ISO string or datetime
     if isinstance(last_scraped, str):
         try:
-            scraped_time = datetime.fromisoformat(last_scraped)
+            scraped_time = datetime.fromisoformat(last_scraped.replace("Z", "+00:00"))
         except Exception:
             return True
     else:
         scraped_time = last_scraped
-    now = datetime.now(timezone.utc)
-    return scraped_time < now - timedelta(days=7)
+    if scraped_time.tzinfo is None:
+        scraped_time = scraped_time.replace(tzinfo=timezone.utc)
+    return scraped_time < datetime.now(timezone.utc) - timedelta(days=days)
+
+
+def _avg(values: list) -> Optional[float]:
+    """Average of a list, ignoring None/zero values. Returns None if empty."""
+    valid = [v for v in values if v is not None and v > 0]
+    return sum(valid) / len(valid) if valid else None
+
+
+def _estimate_monthly_rent(purchase_price: float) -> float:
+    """
+    Fallback LTR rent estimate when rent_service isn't available.
+    Uses the 0.5% rule (monthly rent ≈ 0.5% of purchase price for Canadian markets).
+    """
+    return round(purchase_price * 0.005, 2)
 
 
 @router.post("/listing", response_model=AnalyzeListingResponse)
 async def analyze_listing(
     request: AnalyzeListingRequest,
-    background_tasks: BackgroundTasks,  # Magic key: for async refresh trigger
     _: bool = Depends(require_api_key),
 ):
-    # 1. Fetch property details from DDF
+    # ──────────────────────────────────────
+    # 1. PROPERTY DETAILS FROM DDF
+    # ──────────────────────────────────────
     raw_listing = await ddf_service.get_listing_by_mls(request.mls_number)
     if not raw_listing:
         raise HTTPException(
             status_code=404,
-            detail=f"MLS® {request.mls_number} not found in DDF feed. "
-                   f"Verify the listing is active and accessible via your DDF credentials.",
+            detail=(
+                f"MLS® {request.mls_number} not found in DDF feed. "
+                "Verify the listing is active and accessible via your DDF credentials."
+            ),
         )
     property_details = ddf_service.parse_property_details(raw_listing)
+
+    # User override for purchase price
     if request.purchase_price_override:
         property_details.list_price = request.purchase_price_override
 
-    # Geocode if we are missing coordinates (for new/unknown neighborhoods)
+    # ──────────────────────────────────────
+    # 2. GEOCODE IF COORDINATES MISSING
+    # ──────────────────────────────────────
     if not property_details.latitude or not property_details.longitude:
         try:
-            # Assume you have some maps_service or geocoder to use
             from app.services.maps_service import maps_service
-            # Compose address string from street address/city from property_details
-            address = f"{getattr(property_details, 'address', '')}, {getattr(property_details, 'city', '')}"
+            address = (
+                f"{getattr(property_details, 'address', '')}, "
+                f"{getattr(property_details, 'city', '')}"
+            )
             location = await maps_service.geocode(address)
             if location and "lat" in location and "lng" in location:
                 property_details.latitude = location["lat"]
                 property_details.longitude = location["lng"]
         except Exception as e:
-            # Optionally log the error here if you want
-            property_details.latitude = None
-            property_details.longitude = None
+            logger.warning(f"Geocoding failed for {property_details.mls_number}: {e}")
 
-    # 2. LAYER 1: Check Supabase Cache First (use 1km)
-    existing_comps = []
+    # ──────────────────────────────────────
+    # 3. AIRBNB COMP DATA — CACHE-FIRST, AIRROI-FALLBACK
+    # ──────────────────────────────────────
+    nearby_comps = []
+
     if property_details.latitude and property_details.longitude:
-        existing_comps = await supabase.get_nearby_airbnb_comps(
+        # Layer 1: try the Supabase cache
+        cached_comps = await supabase.get_nearby_airbnb_comps(
             lat=property_details.latitude,
-            lng=property_details.longitude
+            lng=property_details.longitude,
         )
 
-    # 3. LAYER 2 & 3: Background Refresh Logic
-    should_refresh = not existing_comps or is_stale(
-        getattr(existing_comps[0], "last_scraped", None)
-        if existing_comps else None
+        # Use cache only if fresh
+        if cached_comps and not _is_stale(cached_comps[0].get("last_scraped")):
+            nearby_comps = cached_comps
+            logger.info(f"Using {len(nearby_comps)} cached comps.")
+        else:
+            # Layer 2: fetch fresh from AirROI
+            logger.info("Cache miss or stale. Fetching from AirROI.")
+            fresh_comps = await airroi.get_comparables(
+                latitude=property_details.latitude,
+                longitude=property_details.longitude,
+                bedrooms=property_details.bedrooms,
+                baths=property_details.bathrooms,
+            )
+            if fresh_comps:
+                nearby_comps = fresh_comps
+                # Save to cache (non-blocking failure)
+                await supabase.save_airbnb_comps(fresh_comps)
+            elif cached_comps:
+                # AirROI failed but we have stale cache. Use it as a last resort.
+                nearby_comps = cached_comps
+                logger.info(f"AirROI returned no comps, falling back to {len(cached_comps)} stale cached comps.")
+
+    # ──────────────────────────────────────
+    # 4. MORTGAGE
+    # ──────────────────────────────────────
+    mortgage = calculator.calculate_mortgage(
+        purchase_price=property_details.list_price,
+        interest_rate=request.interest_rate,
+        down_payment_pct=request.down_payment_pct,
+        amortization_years=request.amortization_years,
     )
-    if should_refresh and property_details.latitude and property_details.longitude:
-        background_tasks.add_task(
-            supabase.invoke_edge_function,
-            "analyze-str-v2",
-            {"lat": property_details.latitude, "lng": property_details.longitude}
+
+    # ──────────────────────────────────────
+    # 5. LTR ANALYSIS
+    # ──────────────────────────────────────
+    monthly_rent = (
+        request.monthly_rent_override
+        if request.monthly_rent_override
+        else _estimate_monthly_rent(property_details.list_price)
+    )
+
+    ltr_analysis = None
+    if request.analysis_type in (AnalysisType.LTR, AnalysisType.BOTH):
+        ltr_analysis = calculator.calculate_ltr(
+            property=property_details,
+            mortgage=mortgage,
+            monthly_rent=monthly_rent,
         )
 
-    # 4. Immediate Response: calculate STR and dummy response
-    str_analysis = calculator.calculate_str(existing_comps or [])
+    # ──────────────────────────────────────
+    # 6. STR ANALYSIS
+    # ──────────────────────────────────────
+    str_analysis = None
+    if request.analysis_type in (AnalysisType.STR, AnalysisType.BOTH):
+        # Derive subject property's projected rate and occupancy from comp averages
+        comp_nightly_rates = [c.get("nightly_rate") for c in nearby_comps]
+        comp_occupancies = [c.get("occupancy_rate") for c in nearby_comps]
 
+        avg_rate = _avg(comp_nightly_rates)
+        avg_occ = _avg(comp_occupancies)
+
+        # Use override if provided, otherwise comp average, otherwise reasonable default
+        nightly_rate = (
+            request.nightly_rate_override
+            if request.nightly_rate_override
+            else (avg_rate if avg_rate else 200.0)
+        )
+        occupancy_rate = avg_occ if avg_occ else 0.65
+
+        str_analysis = calculator.calculate_str(
+            property=property_details,
+            mortgage=mortgage,
+            nightly_rate=nightly_rate,
+            occupancy_rate=occupancy_rate,
+            nearby_airbnbs=nearby_comps,
+        )
+
+    # ──────────────────────────────────────
+    # 7. INVESTMENT SUMMARY
+    # ──────────────────────────────────────
+    summary = calculator.generate_summary(
+        ltr=ltr_analysis,
+        str_analysis=str_analysis,
+        analysis_type=request.analysis_type,
+    )
+
+    # ──────────────────────────────────────
+    # 8. LOG ANALYTICS (non-blocking)
+    # ──────────────────────────────────────
+    report_id = await supabase.log_analysis(
+        mls_number=property_details.mls_number,
+        analysis_type=request.analysis_type.value,
+        result_summary={
+            "cap_rate_ltr": ltr_analysis.cap_rate if ltr_analysis else None,
+            "cap_rate_str": str_analysis.cap_rate if str_analysis else None,
+            "coc_ltr": ltr_analysis.cash_on_cash_return if ltr_analysis else None,
+            "coc_str": str_analysis.cash_on_cash_return if str_analysis else None,
+            "recommendation": summary.recommendation,
+            "best_strategy": summary.best_strategy,
+            "purchase_price": property_details.list_price,
+            "community": property_details.community,
+        },
+    )
+
+    # ──────────────────────────────────────
+    # 9. RETURN FULL RESPONSE
+    # ──────────────────────────────────────
     return AnalyzeListingResponse(
         property=property_details,
+        mortgage=mortgage,
+        ltr=ltr_analysis,
         str_analysis=str_analysis,
-        # ...rest of your response fields as needed (return what your frontend requires)
+        summary=summary,
+        report_id=report_id,
     )
 
 
@@ -110,7 +245,6 @@ async def quick_calculate(
     """
     from app.models.schemas import PropertyDetails
 
-    # Create a minimal property object
     prop = PropertyDetails(
         mls_number="MANUAL",
         address="Manual Entry",
