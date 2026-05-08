@@ -1,15 +1,22 @@
 """
 AirRev Engine — Supabase Service
-Logs searches, caches reports, stores community data
+Logs searches, caches reports, stores community data, caches Airbnb comps
 """
 
 import httpx
 import logging
-from typing import Optional, Dict, Any
-from datetime import datetime
+import math
+from typing import Optional, Dict, Any, List
+from datetime import datetime, timezone, timedelta
 from app.core.config import settings
 
 logger = logging.getLogger(__name__)
+
+# Cache freshness: comps older than this trigger a fresh AirROI fetch
+COMP_CACHE_DAYS = 7
+
+# Search radius in kilometers for nearby comps
+COMP_SEARCH_RADIUS_KM = 1.0
 
 
 class SupabaseService:
@@ -30,6 +37,10 @@ class SupabaseService:
     @property
     def enabled(self) -> bool:
         return bool(self.base_url and settings.SUPABASE_SERVICE_KEY)
+
+    # ──────────────────────────────────────
+    # ANALYTICS LOGGING (existing)
+    # ──────────────────────────────────────
 
     async def log_analysis(
         self,
@@ -71,6 +82,10 @@ class SupabaseService:
                 logger.warning(f"Supabase log failed (non-critical): {e}")
                 return None
 
+    # ──────────────────────────────────────
+    # COMMUNITY INSIGHTS (existing)
+    # ──────────────────────────────────────
+
     async def get_community_insights(self, community: str) -> Optional[Dict[str, Any]]:
         """Fetch cached community insights from Supabase."""
         if not self.enabled:
@@ -94,6 +109,10 @@ class SupabaseService:
                 logger.warning(f"Supabase community fetch failed: {e}")
                 return None
 
+    # ──────────────────────────────────────
+    # REPORT CACHE (existing)
+    # ──────────────────────────────────────
+
     async def cache_report(
         self,
         mls_number: str,
@@ -110,7 +129,7 @@ class SupabaseService:
             "report_type": report_type,
             "report_data": report_data,
             "created_at": datetime.utcnow().isoformat(),
-            "expires_at": datetime.utcnow().isoformat(),  # TTL handled in Supabase policy
+            "expires_at": datetime.utcnow().isoformat(),
         }
 
         async with httpx.AsyncClient(timeout=10.0) as client:
@@ -126,6 +145,93 @@ class SupabaseService:
             except Exception as e:
                 logger.warning(f"Supabase cache write failed: {e}")
                 return None
+
+    # ──────────────────────────────────────
+    # AIRBNB COMP CACHE (new)
+    # ──────────────────────────────────────
+
+    async def get_nearby_airbnb_comps(
+        self,
+        lat: float,
+        lng: float,
+        radius_km: float = COMP_SEARCH_RADIUS_KM,
+    ) -> List[Dict[str, Any]]:
+        """
+        Fetch cached Airbnb comps near a coordinate from Supabase.
+        Filters by approximate radius using a lat/lng bounding box.
+        Returns empty list if Supabase is disabled or returns nothing.
+        """
+        if not self.enabled:
+            return []
+
+        # Approximate degrees per km (good enough at Calgary's latitude)
+        # 1 degree latitude ≈ 111 km
+        # 1 degree longitude ≈ 111 km × cos(latitude)
+        lat_delta = radius_km / 111.0
+        lng_delta = radius_km / (111.0 * max(0.01, abs(math.cos(math.radians(lat)))))
+
+        lat_min = lat - lat_delta
+        lat_max = lat + lat_delta
+        lng_min = lng - lng_delta
+        lng_max = lng + lng_delta
+
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            try:
+                response = await client.get(
+                    f"{self.base_url}/rest/v1/airbnb_listings",
+                    params={
+                        "select": "*",
+                        "latitude": f"gte.{lat_min}",
+                        "and": (
+                            f"(latitude.lte.{lat_max},"
+                            f"longitude.gte.{lng_min},"
+                            f"longitude.lte.{lng_max})"
+                        ),
+                        "limit": 50,
+                    },
+                    headers=self.headers,
+                )
+                response.raise_for_status()
+                data = response.json() or []
+                logger.info(f"Supabase cache hit: {len(data)} comps near ({lat}, {lng})")
+                return data
+            except Exception as e:
+                logger.warning(f"Supabase comp fetch failed (non-critical): {e}")
+                return []
+
+    async def save_airbnb_comps(self, comps: List[Dict[str, Any]]) -> int:
+        """
+        Upsert Airbnb comps into the cache table.
+        Returns the count saved. Failures are logged but don't crash the request.
+        """
+        if not self.enabled or not comps:
+            return 0
+
+        # Stamp each comp with the current scrape time
+        now_iso = datetime.now(timezone.utc).isoformat()
+        rows = []
+        for comp in comps:
+            row = dict(comp)  # shallow copy so we don't mutate caller
+            row["last_scraped"] = now_iso
+            # Convert any list/dict fields to JSON if needed (Supabase handles this)
+            rows.append(row)
+
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            try:
+                response = await client.post(
+                    f"{self.base_url}/rest/v1/airbnb_listings",
+                    json=rows,
+                    headers={
+                        **self.headers,
+                        "Prefer": "resolution=merge-duplicates,return=minimal",
+                    },
+                )
+                response.raise_for_status()
+                logger.info(f"Saved {len(rows)} Airbnb comps to Supabase cache.")
+                return len(rows)
+            except Exception as e:
+                logger.warning(f"Supabase comp save failed (non-critical): {e}")
+                return 0
 
 
 # Singleton
