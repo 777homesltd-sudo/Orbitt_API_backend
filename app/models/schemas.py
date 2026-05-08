@@ -30,6 +30,10 @@ class AnalyzeListingRequest(BaseModel):
     monthly_rent_override: Optional[float] = None  # LTR manual override
     nightly_rate_override: Optional[float] = None  # STR manual override
 
+    # STR cost overrides — for the cohost commission and cleaning sliders
+    str_management_fee_pct: Optional[float] = None  # e.g. 0.25 for 25% cohost commission
+    str_cleaning_pct: Optional[float] = None        # e.g. 0.10 for 10% of revenue
+
 
 class InvestmentCalculatorRequest(BaseModel):
     purchase_price: float
@@ -76,6 +80,8 @@ class PropertyDetails(BaseModel):
     lot_size: Optional[float] = None
     parking: Optional[int] = None
     listing_url: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 
 class MortgageBreakdown(BaseModel):
