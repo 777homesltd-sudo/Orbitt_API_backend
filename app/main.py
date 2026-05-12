@@ -149,3 +149,49 @@ async def health_check():
         "cache_entries": cache.size,
         "environment": settings.APP_ENV,
     }
+
+
+# ── Debug: test DDF token + first OData call ──────────────────
+@app.get("/debug/ddf", tags=["Health"], include_in_schema=False)
+async def debug_ddf():
+    """Test the full DDF OAuth + OData flow and return raw responses."""
+    import httpx
+    results = {}
+
+    # Step 1: token
+    try:
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            r = await client.post(
+                settings.DDF_TOKEN_ENDPOINT,
+                data={
+                    "grant_type": "client_credentials",
+                    "client_id": settings.DDF_CLIENT_ID,
+                    "client_secret": settings.DDF_CLIENT_SECRET,
+                    "scope": "DDFApi_Read",
+                },
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
+            )
+            results["token_status"] = r.status_code
+            if r.status_code == 200:
+                token_data = r.json()
+                token = token_data["access_token"]
+                results["token_acquired"] = True
+                results["expires_in"] = token_data.get("expires_in")
+
+                # Step 2: test OData call
+                r2 = await client.get(
+                    f"{settings.DDF_API_URL}/Property",
+                    params={"$filter": "ListingId eq 'A2294434'", "$top": 1},
+                    headers={
+                        "Authorization": f"Bearer {token}",
+                        "Accept": "application/json",
+                    },
+                )
+                results["odata_status"] = r2.status_code
+                results["odata_response"] = r2.text[:1000]
+            else:
+                results["token_error"] = r.text[:500]
+    except Exception as e:
+        results["exception"] = str(e)
+
+    return results
