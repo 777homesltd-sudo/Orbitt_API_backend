@@ -5,6 +5,7 @@ FastAPI Backend | DDF-powered | Supabase-logged | Railway-deployed
 
 import logging
 import time
+import traceback
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
@@ -76,7 +77,19 @@ async def log_requests(request: Request, call_next):
 # ── Global exception handler ──────────────────────────────────
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
+    tb = traceback.format_exc()
     logger.error(f"Unhandled exception on {request.url.path}: {exc}", exc_info=True)
+    # Surface real error in non-production so we can debug
+    if settings.APP_ENV != "production":
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": type(exc).__name__,
+                "message": str(exc),
+                "traceback": tb.splitlines()[-8:],
+                "path": str(request.url.path),
+            },
+        )
     return JSONResponse(
         status_code=500,
         content={
