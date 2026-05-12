@@ -31,7 +31,7 @@ async def lifespan(app: FastAPI):
     logger.info(f"   Environment : {settings.APP_ENV}")
     logger.info(f"   AI enabled  : {settings.AI_ENABLED}")
     logger.info(f"   Supabase    : {'connected' if settings.SUPABASE_URL else 'not configured'}")
-    logger.info(f"   DDF         : {'configured' if settings.DDF_ACCESS_KEY else 'not configured'}")
+    logger.info(f"   DDF         : {'configured' if settings.DDF_CLIENT_ID else 'not configured'}")
     yield
     expired = cache.clear_expired()
     logger.info(f"🛑 AirRev Engine shutting down | cleared {expired} cache entries")

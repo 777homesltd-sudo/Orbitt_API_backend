@@ -9,16 +9,17 @@ from typing import List
 class Settings(BaseSettings):
     # --- App ---
     APP_ENV: str = "development"
-    API_SECRET_KEY: str = "change-me-in-production"
+    AIRREV_API_KEY: str = "change-me-in-production"
 
     # --- CREA DDF ---
     DDF_API_URL: str = "https://ddfapi.realtor.ca/odata/v1"
-    DDF_ACCESS_KEY: str = ""
-    DDF_SECRET_KEY: str = ""
+    DDF_TOKEN_ENDPOINT: str = "https://api.crea.ca/oauth2/token"
+    DDF_CLIENT_ID: str = ""
+    DDF_CLIENT_SECRET: str = ""
 
     # --- Supabase ---
     SUPABASE_URL: str = ""
-    SUPABASE_SERVICE_KEY: str = ""
+    SUPABASE_SERVICE_ROLE_KEY: str = ""
 
     # --- Email ---
     EMAIL_PROVIDER: str = "resend"          # resend | sendgrid | smtp

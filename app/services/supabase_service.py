@@ -28,15 +28,15 @@ class SupabaseService:
     def __init__(self):
         self.base_url = settings.SUPABASE_URL
         self.headers = {
-            "apikey": settings.SUPABASE_SERVICE_KEY,
-            "Authorization": f"Bearer {settings.SUPABASE_SERVICE_KEY}",
+            "apikey": settings.SUPABASE_SERVICE_ROLE_KEY,
+            "Authorization": f"Bearer {settings.SUPABASE_SERVICE_ROLE_KEY}",
             "Content-Type": "application/json",
             "Prefer": "return=representation",
         }
 
     @property
     def enabled(self) -> bool:
-        return bool(self.base_url and settings.SUPABASE_SERVICE_KEY)
+        return bool(self.base_url and settings.SUPABASE_SERVICE_ROLE_KEY)
 
     # ──────────────────────────────────────
     # ANALYTICS LOGGING (existing)

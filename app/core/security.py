@@ -18,7 +18,7 @@ async def require_api_key(api_key: str = Security(api_key_header)):
     if settings.APP_ENV == "development":
         return True  # Skip auth in local dev
 
-    if not api_key or api_key != settings.API_SECRET_KEY:
+    if not api_key or api_key != settings.AIRREV_API_KEY:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Invalid or missing API key. Set X-AirRev-Key header.",
