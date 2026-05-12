@@ -63,11 +63,12 @@ def _estimate_monthly_rent(
     square_footage: Optional[float],
     purchase_price: float,
     city: str = "Calgary",
+    latitude: Optional[float] = None,
+    longitude: Optional[float] = None,
 ) -> tuple[float, str]:
     """
     LTR rent estimate via rent_service community + bedroom lookup.
-    Routes by city, then community. Falls back to city-wide default,
-    then price rule only if city is unknown.
+    Fallback chain: exact community match → proximity (lat/lng) → city default.
     Returns (monthly_rent, source_label).
     """
     insight = rent_service.get_rent_estimate(
@@ -76,8 +77,15 @@ def _estimate_monthly_rent(
         property_type=property_type,
         square_footage=square_footage,
         city=city,
+        latitude=latitude,
+        longitude=longitude,
     )
-    source = "community_benchmark" if community and community in insight.community else "city_default"
+    if community and community in insight.community and "nearest" not in insight.community:
+        source = "community_benchmark"
+    elif "nearest" in insight.community:
+        source = "proximity_match"
+    else:
+        source = "city_default"
     return insight.avg_rent, source
 
 
@@ -178,6 +186,8 @@ async def analyze_listing(
             property_type=property_details.property_type or "Apartment",
             square_footage=property_details.square_footage,
             purchase_price=property_details.list_price,
+            latitude=property_details.latitude,
+            longitude=property_details.longitude,
             city=property_details.city or "Calgary",
         )
     logger.info(f"LTR rent estimate: ${monthly_rent}/mo (source: {rent_source})")

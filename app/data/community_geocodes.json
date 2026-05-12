@@ -1,0 +1,1556 @@
+{
+  "lewisburg": {
+    "slug": "lewisburg",
+    "name": "Lewisburg",
+    "quadrant": "NORTH",
+    "latitude": 51.187845,
+    "longitude": -114.040448
+  },
+  "cityscape": {
+    "slug": "cityscape",
+    "name": "Cityscape",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.146525,
+    "longitude": -113.959642
+  },
+  "martindale": {
+    "slug": "martindale",
+    "name": "Martindale",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.117676,
+    "longitude": -113.958898
+  },
+  "hidden-valley": {
+    "slug": "hidden-valley",
+    "name": "Hidden Valley",
+    "quadrant": "NORTH",
+    "latitude": 51.151025,
+    "longitude": -114.112191
+  },
+  "macewan-glen": {
+    "slug": "macewan-glen",
+    "name": "Macewan Glen",
+    "quadrant": "NORTH",
+    "latitude": 51.137389,
+    "longitude": -114.115023
+  },
+  "edgemont": {
+    "slug": "edgemont",
+    "name": "Edgemont",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.127397,
+    "longitude": -114.144643
+  },
+  "saddle-ridge": {
+    "slug": "saddle-ridge",
+    "name": "Saddle Ridge",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.132294,
+    "longitude": -113.94576
+  },
+  "beddington-heights": {
+    "slug": "beddington-heights",
+    "name": "Beddington Heights",
+    "quadrant": "NORTH",
+    "latitude": 51.129633,
+    "longitude": -114.079229
+  },
+  "north-haven-upper": {
+    "slug": "north-haven-upper",
+    "name": "North Haven Upper",
+    "quadrant": "NORTH",
+    "latitude": 51.103557,
+    "longitude": -114.08587
+  },
+  "sandstone-valley": {
+    "slug": "sandstone-valley",
+    "name": "Sandstone Valley",
+    "quadrant": "NORTH",
+    "latitude": 51.137602,
+    "longitude": -114.096995
+  },
+  "sage-hill": {
+    "slug": "sage-hill",
+    "name": "Sage Hill",
+    "quadrant": "NORTH",
+    "latitude": 51.175836,
+    "longitude": -114.141032
+  },
+  "homestead": {
+    "slug": "homestead",
+    "name": "Homestead",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.12175,
+    "longitude": -113.916456
+  },
+  "country-hills": {
+    "slug": "country-hills",
+    "name": "Country Hills",
+    "quadrant": "NORTH",
+    "latitude": 51.143877,
+    "longitude": -114.076767
+  },
+  "keystone-hills": {
+    "slug": "keystone-hills",
+    "name": "Keystone Hills",
+    "quadrant": "NORTH",
+    "latitude": 51.179893,
+    "longitude": -114.02646
+  },
+  "redstone": {
+    "slug": "redstone",
+    "name": "Redstone",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.170525,
+    "longitude": -113.957513
+  },
+  "skyview-ranch": {
+    "slug": "skyview-ranch",
+    "name": "Skyview Ranch",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.158494,
+    "longitude": -113.957149
+  },
+  "cornerstone": {
+    "slug": "cornerstone",
+    "name": "Cornerstone",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.158466,
+    "longitude": -113.932711
+  },
+  "livingston": {
+    "slug": "livingston",
+    "name": "Livingston",
+    "quadrant": "NORTH",
+    "latitude": 51.187037,
+    "longitude": -114.063742
+  },
+  "hamptons": {
+    "slug": "hamptons",
+    "name": "Hamptons",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.145137,
+    "longitude": -114.149061
+  },
+  "harvest-hills": {
+    "slug": "harvest-hills",
+    "name": "Harvest Hills",
+    "quadrant": "NORTH",
+    "latitude": 51.148149,
+    "longitude": -114.054117
+  },
+  "north-haven": {
+    "slug": "north-haven",
+    "name": "North Haven",
+    "quadrant": "NORTH",
+    "latitude": 51.096668,
+    "longitude": -114.089561
+  },
+  "castleridge": {
+    "slug": "castleridge",
+    "name": "Castleridge",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.106298,
+    "longitude": -113.959278
+  },
+  "kincora": {
+    "slug": "kincora",
+    "name": "Kincora",
+    "quadrant": "NORTH",
+    "latitude": 51.160166,
+    "longitude": -114.134083
+  },
+  "nolan-hill": {
+    "slug": "nolan-hill",
+    "name": "Nolan Hill",
+    "quadrant": "NORTH",
+    "latitude": 51.175412,
+    "longitude": -114.165534
+  },
+  "deer-ridge": {
+    "slug": "deer-ridge",
+    "name": "Deer Ridge",
+    "quadrant": "SOUTH",
+    "latitude": 50.927086,
+    "longitude": -114.020298
+  },
+  "highwood": {
+    "slug": "highwood",
+    "name": "Highwood",
+    "quadrant": "CENTRE",
+    "latitude": 51.092261,
+    "longitude": -114.079237
+  },
+  "tuxedo-park": {
+    "slug": "tuxedo-park",
+    "name": "Tuxedo Park",
+    "quadrant": "CENTRE",
+    "latitude": 51.07438,
+    "longitude": -114.061638
+  },
+  "highland-park": {
+    "slug": "highland-park",
+    "name": "Highland Park",
+    "quadrant": "CENTRE",
+    "latitude": 51.08798,
+    "longitude": -114.065024
+  },
+  "greenview": {
+    "slug": "greenview",
+    "name": "Greenview",
+    "quadrant": "CENTRE",
+    "latitude": 51.095789,
+    "longitude": -114.056391
+  },
+  "crescent-heights": {
+    "slug": "crescent-heights",
+    "name": "Crescent Heights",
+    "quadrant": "CENTRE",
+    "latitude": 51.059662,
+    "longitude": -114.061026
+  },
+  "winston-heights-mountview": {
+    "slug": "winston-heights-mountview",
+    "name": "Winston Heights/Mountview",
+    "quadrant": "CENTRE",
+    "latitude": 51.07382,
+    "longitude": -114.042494
+  },
+  "vista-heights": {
+    "slug": "vista-heights",
+    "name": "Vista Heights",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.071145,
+    "longitude": -114.017864
+  },
+  "queens-park-village": {
+    "slug": "queens-park-village",
+    "name": "Queens Park Village",
+    "quadrant": "CENTRE",
+    "latitude": 51.084628,
+    "longitude": -114.077827
+  },
+  "rosedale": {
+    "slug": "rosedale",
+    "name": "Rosedale",
+    "quadrant": "CENTRE",
+    "latitude": 51.063545,
+    "longitude": -114.079101
+  },
+  "glenbrook": {
+    "slug": "glenbrook",
+    "name": "Glenbrook",
+    "quadrant": "WEST",
+    "latitude": 51.024693,
+    "longitude": -114.15383
+  },
+  "rosscarrock": {
+    "slug": "rosscarrock",
+    "name": "Rosscarrock",
+    "quadrant": "WEST",
+    "latitude": 51.04205,
+    "longitude": -114.145339
+  },
+  "westgate": {
+    "slug": "westgate",
+    "name": "Westgate",
+    "quadrant": "WEST",
+    "latitude": 51.044214,
+    "longitude": -114.158807
+  },
+  "glendale": {
+    "slug": "glendale",
+    "name": "Glendale",
+    "quadrant": "WEST",
+    "latitude": 51.033986,
+    "longitude": -114.152522
+  },
+  "chinook-park": {
+    "slug": "chinook-park",
+    "name": "Chinook Park",
+    "quadrant": "SOUTH",
+    "latitude": 50.982794,
+    "longitude": -114.089254
+  },
+  "willow-park": {
+    "slug": "willow-park",
+    "name": "Willow Park",
+    "quadrant": "SOUTH",
+    "latitude": 50.956364,
+    "longitude": -114.056906
+  },
+  "kingsland": {
+    "slug": "kingsland",
+    "name": "Kingsland",
+    "quadrant": "SOUTH",
+    "latitude": 50.986966,
+    "longitude": -114.077378
+  },
+  "university-of-calgary": {
+    "slug": "university-of-calgary",
+    "name": "University Of Calgary",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.076093,
+    "longitude": -114.128364
+  },
+  "killarney-glengarry": {
+    "slug": "killarney-glengarry",
+    "name": "Killarney/Glengarry",
+    "quadrant": "CENTRE",
+    "latitude": 51.03146,
+    "longitude": -114.132466
+  },
+  "wildwood": {
+    "slug": "wildwood",
+    "name": "Wildwood",
+    "quadrant": "WEST",
+    "latitude": 51.057496,
+    "longitude": -114.156441
+  },
+  "hillhurst": {
+    "slug": "hillhurst",
+    "name": "Hillhurst",
+    "quadrant": "CENTRE",
+    "latitude": 51.056321,
+    "longitude": -114.09326
+  },
+  "university-district": {
+    "slug": "university-district",
+    "name": "University District",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.074736,
+    "longitude": -114.145939
+  },
+  "ranchlands": {
+    "slug": "ranchlands",
+    "name": "Ranchlands",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.119701,
+    "longitude": -114.18417
+  },
+  "montgomery": {
+    "slug": "montgomery",
+    "name": "Montgomery",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.073212,
+    "longitude": -114.161832
+  },
+  "parkdale": {
+    "slug": "parkdale",
+    "name": "Parkdale",
+    "quadrant": "CENTRE",
+    "latitude": 51.060106,
+    "longitude": -114.137453
+  },
+  "brentwood": {
+    "slug": "brentwood",
+    "name": "Brentwood",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.095666,
+    "longitude": -114.132737
+  },
+  "point-mckay": {
+    "slug": "point-mckay",
+    "name": "Point Mckay",
+    "quadrant": "CENTRE",
+    "latitude": 51.059464,
+    "longitude": -114.146146
+  },
+  "dalhousie": {
+    "slug": "dalhousie",
+    "name": "Dalhousie",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.109419,
+    "longitude": -114.158285
+  },
+  "charleswood": {
+    "slug": "charleswood",
+    "name": "Charleswood",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.089917,
+    "longitude": -114.116667
+  },
+  "rideau-park": {
+    "slug": "rideau-park",
+    "name": "Rideau Park",
+    "quadrant": "CENTRE",
+    "latitude": 51.025061,
+    "longitude": -114.073852
+  },
+  "lower-mount-royal": {
+    "slug": "lower-mount-royal",
+    "name": "Lower Mount Royal",
+    "quadrant": "CENTRE",
+    "latitude": 51.036702,
+    "longitude": -114.085872
+  },
+  "bankview": {
+    "slug": "bankview",
+    "name": "Bankview",
+    "quadrant": "CENTRE",
+    "latitude": 51.034073,
+    "longitude": -114.100667
+  },
+  "south-calgary": {
+    "slug": "south-calgary",
+    "name": "South Calgary",
+    "quadrant": "CENTRE",
+    "latitude": 51.026623,
+    "longitude": -114.102782
+  },
+  "meadowlark-park": {
+    "slug": "meadowlark-park",
+    "name": "Meadowlark Park",
+    "quadrant": "CENTRE",
+    "latitude": 50.997834,
+    "longitude": -114.077298
+  },
+  "elboya": {
+    "slug": "elboya",
+    "name": "Elboya",
+    "quadrant": "CENTRE",
+    "latitude": 51.012333,
+    "longitude": -114.074392
+  },
+  "manchester": {
+    "slug": "manchester",
+    "name": "Manchester",
+    "quadrant": "CENTRE",
+    "latitude": 51.007097,
+    "longitude": -114.066565
+  },
+  "downtown-west-end": {
+    "slug": "downtown-west-end",
+    "name": "Downtown West End",
+    "quadrant": "CENTRE",
+    "latitude": 51.046964,
+    "longitude": -114.088337
+  },
+  "sunnyside": {
+    "slug": "sunnyside",
+    "name": "Sunnyside",
+    "quadrant": "CENTRE",
+    "latitude": 51.057032,
+    "longitude": -114.076327
+  },
+  "downtown-east-village": {
+    "slug": "downtown-east-village",
+    "name": "Downtown East Village",
+    "quadrant": "CENTRE",
+    "latitude": 51.046284,
+    "longitude": -114.050241
+  },
+  "beltline": {
+    "slug": "beltline",
+    "name": "Beltline",
+    "quadrant": "CENTRE",
+    "latitude": 51.039952,
+    "longitude": -114.068099
+  },
+  "downtown-commercial-core": {
+    "slug": "downtown-commercial-core",
+    "name": "Downtown Commercial Core",
+    "quadrant": "CENTRE",
+    "latitude": 51.047204,
+    "longitude": -114.069979
+  },
+  "eau-claire": {
+    "slug": "eau-claire",
+    "name": "Eau Claire",
+    "quadrant": "CENTRE",
+    "latitude": 51.053087,
+    "longitude": -114.07346
+  },
+  "chinatown": {
+    "slug": "chinatown",
+    "name": "Chinatown",
+    "quadrant": "CENTRE",
+    "latitude": 51.051837,
+    "longitude": -114.063663
+  },
+  "acadia": {
+    "slug": "acadia",
+    "name": "Acadia",
+    "quadrant": "SOUTH",
+    "latitude": 50.971378,
+    "longitude": -114.054328
+  },
+  "haysboro": {
+    "slug": "haysboro",
+    "name": "Haysboro",
+    "quadrant": "SOUTH",
+    "latitude": 50.972303,
+    "longitude": -114.083349
+  },
+  "collingwood": {
+    "slug": "collingwood",
+    "name": "Collingwood",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.084009,
+    "longitude": -114.101499
+  },
+  "cambrian-heights": {
+    "slug": "cambrian-heights",
+    "name": "Cambrian Heights",
+    "quadrant": "CENTRE",
+    "latitude": 51.08501,
+    "longitude": -114.087908
+  },
+  "mount-pleasant": {
+    "slug": "mount-pleasant",
+    "name": "Mount Pleasant",
+    "quadrant": "CENTRE",
+    "latitude": 51.07392,
+    "longitude": -114.075805
+  },
+  "capitol-hill": {
+    "slug": "capitol-hill",
+    "name": "Capitol Hill",
+    "quadrant": "CENTRE",
+    "latitude": 51.071586,
+    "longitude": -114.095385
+  },
+  "fairview": {
+    "slug": "fairview",
+    "name": "Fairview",
+    "quadrant": "SOUTH",
+    "latitude": 50.984366,
+    "longitude": -114.060332
+  },
+  "rosemont": {
+    "slug": "rosemont",
+    "name": "Rosemont",
+    "quadrant": "CENTRE",
+    "latitude": 51.078299,
+    "longitude": -114.091023
+  },
+  "spruce-cliff": {
+    "slug": "spruce-cliff",
+    "name": "Spruce Cliff",
+    "quadrant": "WEST",
+    "latitude": 51.049443,
+    "longitude": -114.136248
+  },
+  "erlton": {
+    "slug": "erlton",
+    "name": "Erlton",
+    "quadrant": "CENTRE",
+    "latitude": 51.029441,
+    "longitude": -114.062281
+  },
+  "britannia": {
+    "slug": "britannia",
+    "name": "Britannia",
+    "quadrant": "CENTRE",
+    "latitude": 51.012751,
+    "longitude": -114.084761
+  },
+  "mission": {
+    "slug": "mission",
+    "name": "Mission",
+    "quadrant": "CENTRE",
+    "latitude": 51.033443,
+    "longitude": -114.067424
+  },
+  "bel-aire": {
+    "slug": "bel-aire",
+    "name": "Bel-Aire",
+    "quadrant": "CENTRE",
+    "latitude": 50.999408,
+    "longitude": -114.088578
+  },
+  "elbow-park": {
+    "slug": "elbow-park",
+    "name": "Elbow Park",
+    "quadrant": "CENTRE",
+    "latitude": 51.02128,
+    "longitude": -114.083006
+  },
+  "roxboro": {
+    "slug": "roxboro",
+    "name": "Roxboro",
+    "quadrant": "CENTRE",
+    "latitude": 51.026498,
+    "longitude": -114.067932
+  },
+  "forest-lawn": {
+    "slug": "forest-lawn",
+    "name": "Forest Lawn",
+    "quadrant": "EAST",
+    "latitude": 51.038397,
+    "longitude": -113.97128
+  },
+  "windsor-park": {
+    "slug": "windsor-park",
+    "name": "Windsor Park",
+    "quadrant": "CENTRE",
+    "latitude": 51.004868,
+    "longitude": -114.081613
+  },
+  "altadore": {
+    "slug": "altadore",
+    "name": "Altadore",
+    "quadrant": "CENTRE",
+    "latitude": 51.015136,
+    "longitude": -114.101753
+  },
+  "hounsfield-heights-briar-hill": {
+    "slug": "hounsfield-heights-briar-hill",
+    "name": "Hounsfield Heights/Briar Hill",
+    "quadrant": "CENTRE",
+    "latitude": 51.063631,
+    "longitude": -114.105414
+  },
+  "banff-trail": {
+    "slug": "banff-trail",
+    "name": "Banff Trail",
+    "quadrant": "CENTRE",
+    "latitude": 51.074152,
+    "longitude": -114.113273
+  },
+  "renfrew": {
+    "slug": "renfrew",
+    "name": "Renfrew",
+    "quadrant": "CENTRE",
+    "latitude": 51.060901,
+    "longitude": -114.037921
+  },
+  "coach-hill": {
+    "slug": "coach-hill",
+    "name": "Coach Hill",
+    "quadrant": "WEST",
+    "latitude": 51.056539,
+    "longitude": -114.181442
+  },
+  "currie-barracks": {
+    "slug": "currie-barracks",
+    "name": "Currie Barracks",
+    "quadrant": "WEST",
+    "latitude": 51.017227,
+    "longitude": -114.124696
+  },
+  "christie-park": {
+    "slug": "christie-park",
+    "name": "Christie Park",
+    "quadrant": "WEST",
+    "latitude": 51.0399,
+    "longitude": -114.177994
+  },
+  "bayview": {
+    "slug": "bayview",
+    "name": "Bayview",
+    "quadrant": "SOUTH",
+    "latitude": 50.973701,
+    "longitude": -114.108537
+  },
+  "pump-hill": {
+    "slug": "pump-hill",
+    "name": "Pump Hill",
+    "quadrant": "SOUTH",
+    "latitude": 50.966853,
+    "longitude": -114.100792
+  },
+  "garrison-woods": {
+    "slug": "garrison-woods",
+    "name": "Garrison Woods",
+    "quadrant": "CENTRE",
+    "latitude": 51.016904,
+    "longitude": -114.113788
+  },
+  "richmond": {
+    "slug": "richmond",
+    "name": "Richmond",
+    "quadrant": "CENTRE",
+    "latitude": 51.029971,
+    "longitude": -114.11675
+  },
+  "rutland-park": {
+    "slug": "rutland-park",
+    "name": "Rutland Park",
+    "quadrant": "WEST",
+    "latitude": 51.020066,
+    "longitude": -114.135949
+  },
+  "palliser": {
+    "slug": "palliser",
+    "name": "Palliser",
+    "quadrant": "SOUTH",
+    "latitude": 50.966779,
+    "longitude": -114.112165
+  },
+  "ramsay": {
+    "slug": "ramsay",
+    "name": "Ramsay",
+    "quadrant": "CENTRE",
+    "latitude": 51.036054,
+    "longitude": -114.04331
+  },
+  "st-andrews-heights": {
+    "slug": "st-andrews-heights",
+    "name": "St. Andrews Heights",
+    "quadrant": "CENTRE",
+    "latitude": 51.064163,
+    "longitude": -114.12739
+  },
+  "university-heights": {
+    "slug": "university-heights",
+    "name": "University Heights",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.070822,
+    "longitude": -114.133856
+  },
+  "southwood": {
+    "slug": "southwood",
+    "name": "Southwood",
+    "quadrant": "SOUTH",
+    "latitude": 50.957772,
+    "longitude": -114.083246
+  },
+  "patterson": {
+    "slug": "patterson",
+    "name": "Patterson",
+    "quadrant": "WEST",
+    "latitude": 51.06438,
+    "longitude": -114.178056
+  },
+  "inglewood": {
+    "slug": "inglewood",
+    "name": "Inglewood",
+    "quadrant": "CENTRE",
+    "latitude": 51.035562,
+    "longitude": -114.019806
+  },
+  "braeside": {
+    "slug": "braeside",
+    "name": "Braeside",
+    "quadrant": "SOUTH",
+    "latitude": 50.955958,
+    "longitude": -114.106358
+  },
+  "maple-ridge": {
+    "slug": "maple-ridge",
+    "name": "Maple Ridge",
+    "quadrant": "SOUTH",
+    "latitude": 50.958473,
+    "longitude": -114.033599
+  },
+  "garrison-green": {
+    "slug": "garrison-green",
+    "name": "Garrison Green",
+    "quadrant": "WEST",
+    "latitude": 51.00307,
+    "longitude": -114.124085
+  },
+  "north-glenmore-park": {
+    "slug": "north-glenmore-park",
+    "name": "North Glenmore Park",
+    "quadrant": "WEST",
+    "latitude": 51.001927,
+    "longitude": -114.11281
+  },
+  "varsity": {
+    "slug": "varsity",
+    "name": "Varsity",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.092563,
+    "longitude": -114.159224
+  },
+  "upper-mount-royal": {
+    "slug": "upper-mount-royal",
+    "name": "Upper Mount Royal",
+    "quadrant": "CENTRE",
+    "latitude": 51.030774,
+    "longitude": -114.08709
+  },
+  "cliff-bungalow": {
+    "slug": "cliff-bungalow",
+    "name": "Cliff Bungalow",
+    "quadrant": "CENTRE",
+    "latitude": 51.034003,
+    "longitude": -114.074327
+  },
+  "arbour-lake": {
+    "slug": "arbour-lake",
+    "name": "Arbour Lake",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.133504,
+    "longitude": -114.203638
+  },
+  "hawkwood": {
+    "slug": "hawkwood",
+    "name": "Hawkwood",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.130607,
+    "longitude": -114.175593
+  },
+  "citadel": {
+    "slug": "citadel",
+    "name": "Citadel",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.145366,
+    "longitude": -114.180203
+  },
+  "lincoln-park": {
+    "slug": "lincoln-park",
+    "name": "Lincoln Park",
+    "quadrant": "WEST",
+    "latitude": 51.009878,
+    "longitude": -114.129586
+  },
+  "forest-heights": {
+    "slug": "forest-heights",
+    "name": "Forest Heights",
+    "quadrant": "EAST",
+    "latitude": 51.049066,
+    "longitude": -113.968772
+  },
+  "dover": {
+    "slug": "dover",
+    "name": "Dover",
+    "quadrant": "EAST",
+    "latitude": 51.023349,
+    "longitude": -113.991001
+  },
+  "mayfair": {
+    "slug": "mayfair",
+    "name": "Mayfair",
+    "quadrant": "CENTRE",
+    "latitude": 50.995908,
+    "longitude": -114.089056
+  },
+  "erin-woods": {
+    "slug": "erin-woods",
+    "name": "Erin Woods",
+    "quadrant": "EAST",
+    "latitude": 51.019741,
+    "longitude": -113.96837
+  },
+  "southview": {
+    "slug": "southview",
+    "name": "Southview",
+    "quadrant": "EAST",
+    "latitude": 51.034178,
+    "longitude": -113.996143
+  },
+  "eagle-ridge": {
+    "slug": "eagle-ridge",
+    "name": "Eagle Ridge",
+    "quadrant": "SOUTH",
+    "latitude": 50.987812,
+    "longitude": -114.097701
+  },
+  "kelvin-grove": {
+    "slug": "kelvin-grove",
+    "name": "Kelvin Grove",
+    "quadrant": "SOUTH",
+    "latitude": 50.990128,
+    "longitude": -114.08885
+  },
+  "bridgeland-riverside": {
+    "slug": "bridgeland-riverside",
+    "name": "Bridgeland/Riverside",
+    "quadrant": "CENTRE",
+    "latitude": 51.049898,
+    "longitude": -114.034426
+  },
+  "albert-park-radisson-heights": {
+    "slug": "albert-park-radisson-heights",
+    "name": "Albert Park/Radisson Heights",
+    "quadrant": "EAST",
+    "latitude": 51.04295,
+    "longitude": -113.99585
+  },
+  "red-carpet": {
+    "slug": "red-carpet",
+    "name": "Red Carpet",
+    "quadrant": "EAST",
+    "latitude": 51.040999,
+    "longitude": -113.940197
+  },
+  "penbrooke-meadows": {
+    "slug": "penbrooke-meadows",
+    "name": "Penbrooke Meadows",
+    "quadrant": "EAST",
+    "latitude": 51.046261,
+    "longitude": -113.94818
+  },
+  "parkhill": {
+    "slug": "parkhill",
+    "name": "Parkhill",
+    "quadrant": "CENTRE",
+    "latitude": 51.018781,
+    "longitude": -114.066804
+  },
+  "symons-valley-ranch": {
+    "slug": "symons-valley-ranch",
+    "name": "Symons Valley Ranch",
+    "quadrant": "NORTH",
+    "latitude": 51.185124,
+    "longitude": -114.138956
+  },
+  "seton": {
+    "slug": "seton",
+    "name": "Seton",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.872809,
+    "longitude": -113.947362
+  },
+  "glamorgan": {
+    "slug": "glamorgan",
+    "name": "Glamorgan",
+    "quadrant": "WEST",
+    "latitude": 51.014049,
+    "longitude": -114.152385
+  },
+  "greenwood-greenbriar": {
+    "slug": "greenwood-greenbriar",
+    "name": "Greenwood/Greenbriar",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.090289,
+    "longitude": -114.222895
+  },
+  "west-springs": {
+    "slug": "west-springs",
+    "name": "West Springs",
+    "quadrant": "WEST",
+    "latitude": 51.059772,
+    "longitude": -114.207328
+  },
+  "signal-hill": {
+    "slug": "signal-hill",
+    "name": "Signal Hill",
+    "quadrant": "WEST",
+    "latitude": 51.022912,
+    "longitude": -114.176601
+  },
+  "copperfield": {
+    "slug": "copperfield",
+    "name": "Copperfield",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.915167,
+    "longitude": -113.927013
+  },
+  "ricardo-ranch": {
+    "slug": "ricardo-ranch",
+    "name": "Ricardo Ranch",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.85674,
+    "longitude": -113.9395
+  },
+  "hotchkiss": {
+    "slug": "hotchkiss",
+    "name": "Hotchkiss",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.91467,
+    "longitude": -113.896849
+  },
+  "moraine": {
+    "slug": "moraine",
+    "name": "Moraine",
+    "quadrant": "NORTH",
+    "latitude": 51.190576,
+    "longitude": -114.106288
+  },
+  "carrington": {
+    "slug": "carrington",
+    "name": "Carrington",
+    "quadrant": "NORTH",
+    "latitude": 51.184005,
+    "longitude": -114.085027
+  },
+  "evanston": {
+    "slug": "evanston",
+    "name": "Evanston",
+    "quadrant": "NORTH",
+    "latitude": 51.172487,
+    "longitude": -114.112775
+  },
+  "osprey-hill": {
+    "slug": "osprey-hill",
+    "name": "Osprey Hill",
+    "quadrant": "WEST",
+    "latitude": 51.0833,
+    "longitude": -114.238044
+  },
+  "lakeview": {
+    "slug": "lakeview",
+    "name": "Lakeview",
+    "quadrant": "WEST",
+    "latitude": 50.997855,
+    "longitude": -114.130539
+  },
+  "discovery-ridge": {
+    "slug": "discovery-ridge",
+    "name": "Discovery Ridge",
+    "quadrant": "WEST",
+    "latitude": 51.014253,
+    "longitude": -114.215588
+  },
+  "silverado": {
+    "slug": "silverado",
+    "name": "Silverado",
+    "quadrant": "SOUTH",
+    "latitude": 50.883911,
+    "longitude": -114.070134
+  },
+  "millrise": {
+    "slug": "millrise",
+    "name": "Millrise",
+    "quadrant": "SOUTH",
+    "latitude": 50.917364,
+    "longitude": -114.084246
+  },
+  "pine-creek": {
+    "slug": "pine-creek",
+    "name": "Pine Creek",
+    "quadrant": "SOUTH",
+    "latitude": 50.857181,
+    "longitude": -114.066581
+  },
+  "strathcona-park": {
+    "slug": "strathcona-park",
+    "name": "Strathcona Park",
+    "quadrant": "WEST",
+    "latitude": 51.04824,
+    "longitude": -114.181496
+  },
+  "belmont": {
+    "slug": "belmont",
+    "name": "Belmont",
+    "quadrant": "SOUTH",
+    "latitude": 50.868396,
+    "longitude": -114.055025
+  },
+  "somerset": {
+    "slug": "somerset",
+    "name": "Somerset",
+    "quadrant": "SOUTH",
+    "latitude": 50.898333,
+    "longitude": -114.081949
+  },
+  "oakridge": {
+    "slug": "oakridge",
+    "name": "Oakridge",
+    "quadrant": "SOUTH",
+    "latitude": 50.968586,
+    "longitude": -114.130239
+  },
+  "crestmont": {
+    "slug": "crestmont",
+    "name": "Crestmont",
+    "quadrant": "WEST",
+    "latitude": 51.084818,
+    "longitude": -114.268833
+  },
+  "shawnessy": {
+    "slug": "shawnessy",
+    "name": "Shawnessy",
+    "quadrant": "SOUTH",
+    "latitude": 50.905986,
+    "longitude": -114.077205
+  },
+  "cedarbrae": {
+    "slug": "cedarbrae",
+    "name": "Cedarbrae",
+    "quadrant": "SOUTH",
+    "latitude": 50.956338,
+    "longitude": -114.129912
+  },
+  "yorkville": {
+    "slug": "yorkville",
+    "name": "Yorkville",
+    "quadrant": "SOUTH",
+    "latitude": 50.869125,
+    "longitude": -114.080607
+  },
+  "douglasdale-glen": {
+    "slug": "douglasdale-glen",
+    "name": "Douglasdale/Glen",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.947831,
+    "longitude": -114.002508
+  },
+  "diamond-cove": {
+    "slug": "diamond-cove",
+    "name": "Diamond Cove",
+    "quadrant": "SOUTH",
+    "latitude": 50.946334,
+    "longitude": -114.021917
+  },
+  "queensland": {
+    "slug": "queensland",
+    "name": "Queensland",
+    "quadrant": "SOUTH",
+    "latitude": 50.93714,
+    "longitude": -114.022934
+  },
+  "canyon-meadows": {
+    "slug": "canyon-meadows",
+    "name": "Canyon Meadows",
+    "quadrant": "SOUTH",
+    "latitude": 50.942261,
+    "longitude": -114.081494
+  },
+  "parkland": {
+    "slug": "parkland",
+    "name": "Parkland",
+    "quadrant": "SOUTH",
+    "latitude": 50.921375,
+    "longitude": -114.030018
+  },
+  "midnapore": {
+    "slug": "midnapore",
+    "name": "Midnapore",
+    "quadrant": "SOUTH",
+    "latitude": 50.914742,
+    "longitude": -114.057318
+  },
+  "woodlands": {
+    "slug": "woodlands",
+    "name": "Woodlands",
+    "quadrant": "SOUTH",
+    "latitude": 50.942694,
+    "longitude": -114.107152
+  },
+  "woodbine": {
+    "slug": "woodbine",
+    "name": "Woodbine",
+    "quadrant": "SOUTH",
+    "latitude": 50.941824,
+    "longitude": -114.129482
+  },
+  "shawnee-slopes": {
+    "slug": "shawnee-slopes",
+    "name": "Shawnee Slopes",
+    "quadrant": "SOUTH",
+    "latitude": 50.924982,
+    "longitude": -114.084589
+  },
+  "deer-run": {
+    "slug": "deer-run",
+    "name": "Deer Run",
+    "quadrant": "SOUTH",
+    "latitude": 50.920681,
+    "longitude": -114.009189
+  },
+  "glacier-ridge": {
+    "slug": "glacier-ridge",
+    "name": "Glacier Ridge",
+    "quadrant": "NORTH",
+    "latitude": 51.189427,
+    "longitude": -114.16583
+  },
+  "rangeview": {
+    "slug": "rangeview",
+    "name": "Rangeview",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.875118,
+    "longitude": -113.920441
+  },
+  "mahogany": {
+    "slug": "mahogany",
+    "name": "Mahogany",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.896006,
+    "longitude": -113.924919
+  },
+  "auburn-bay": {
+    "slug": "auburn-bay",
+    "name": "Auburn Bay",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.893063,
+    "longitude": -113.957752
+  },
+  "springbank-hill": {
+    "slug": "springbank-hill",
+    "name": "Springbank Hill",
+    "quadrant": "WEST",
+    "latitude": 51.028601,
+    "longitude": -114.208507
+  },
+  "aspen-woods": {
+    "slug": "aspen-woods",
+    "name": "Aspen Woods",
+    "quadrant": "WEST",
+    "latitude": 51.044094,
+    "longitude": -114.210349
+  },
+  "coral-springs": {
+    "slug": "coral-springs",
+    "name": "Coral Springs",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.103345,
+    "longitude": -113.92716
+  },
+  "huxley": {
+    "slug": "huxley",
+    "name": "Huxley",
+    "quadrant": "EAST",
+    "latitude": 51.053564,
+    "longitude": -113.90618
+  },
+  "bonavista-downs": {
+    "slug": "bonavista-downs",
+    "name": "Bonavista Downs",
+    "quadrant": "SOUTH",
+    "latitude": 50.944874,
+    "longitude": -114.030945
+  },
+  "marlborough-park": {
+    "slug": "marlborough-park",
+    "name": "Marlborough Park",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.060054,
+    "longitude": -113.946266
+  },
+  "bowness": {
+    "slug": "bowness",
+    "name": "Bowness",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.087512,
+    "longitude": -114.196125
+  },
+  "applewood-park": {
+    "slug": "applewood-park",
+    "name": "Applewood Park",
+    "quadrant": "EAST",
+    "latitude": 51.04521,
+    "longitude": -113.927302
+  },
+  "alpine-park": {
+    "slug": "alpine-park",
+    "name": "Alpine Park",
+    "quadrant": "SOUTH",
+    "latitude": 50.91429,
+    "longitude": -114.146677
+  },
+  "falconridge": {
+    "slug": "falconridge",
+    "name": "Falconridge",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.10242,
+    "longitude": -113.945054
+  },
+  "riverbend": {
+    "slug": "riverbend",
+    "name": "Riverbend",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.97417,
+    "longitude": -114.018024
+  },
+  "cranston": {
+    "slug": "cranston",
+    "name": "Cranston",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.877647,
+    "longitude": -113.979476
+  },
+  "valley-ridge": {
+    "slug": "valley-ridge",
+    "name": "Valley Ridge",
+    "quadrant": "WEST",
+    "latitude": 51.094274,
+    "longitude": -114.253628
+  },
+  "haskayne": {
+    "slug": "haskayne",
+    "name": "Haskayne",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.118927,
+    "longitude": -114.286065
+  },
+  "lake-bonavista": {
+    "slug": "lake-bonavista",
+    "name": "Lake Bonavista",
+    "quadrant": "SOUTH",
+    "latitude": 50.939391,
+    "longitude": -114.052109
+  },
+  "pineridge": {
+    "slug": "pineridge",
+    "name": "Pineridge",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.074253,
+    "longitude": -113.946775
+  },
+  "scenic-acres": {
+    "slug": "scenic-acres",
+    "name": "Scenic Acres",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.114436,
+    "longitude": -114.219148
+  },
+  "temple": {
+    "slug": "temple",
+    "name": "Temple",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.0888,
+    "longitude": -113.946772
+  },
+  "legacy": {
+    "slug": "legacy",
+    "name": "Legacy",
+    "quadrant": "SOUTH",
+    "latitude": 50.856033,
+    "longitude": -114.00488
+  },
+  "monterey-park": {
+    "slug": "monterey-park",
+    "name": "Monterey Park",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.081983,
+    "longitude": -113.927487
+  },
+  "mckenzie-lake": {
+    "slug": "mckenzie-lake",
+    "name": "Mckenzie Lake",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.913325,
+    "longitude": -113.985641
+  },
+  "silver-springs": {
+    "slug": "silver-springs",
+    "name": "Silver Springs",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.105536,
+    "longitude": -114.194553
+  },
+  "twinhills": {
+    "slug": "twinhills",
+    "name": "Twinhills",
+    "quadrant": "EAST",
+    "latitude": 51.043936,
+    "longitude": -113.879015
+  },
+  "wolf-willow": {
+    "slug": "wolf-willow",
+    "name": "Wolf Willow",
+    "quadrant": "SOUTH",
+    "latitude": 50.871359,
+    "longitude": -114.005198
+  },
+  "sundance": {
+    "slug": "sundance",
+    "name": "Sundance",
+    "quadrant": "SOUTH",
+    "latitude": 50.900205,
+    "longitude": -114.041051
+  },
+  "abbeydale": {
+    "slug": "abbeydale",
+    "name": "Abbeydale",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.059195,
+    "longitude": -113.928583
+  },
+  "belvedere": {
+    "slug": "belvedere",
+    "name": "Belvedere",
+    "quadrant": "EAST",
+    "latitude": 51.03774,
+    "longitude": -113.90477
+  },
+  "mayland-heights": {
+    "slug": "mayland-heights",
+    "name": "Mayland Heights",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.061523,
+    "longitude": -114.012746
+  },
+  "ogden": {
+    "slug": "ogden",
+    "name": "Ogden",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.990242,
+    "longitude": -114.01242
+  },
+  "marlborough": {
+    "slug": "marlborough",
+    "name": "Marlborough",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.059738,
+    "longitude": -113.969802
+  },
+  "whitehorn": {
+    "slug": "whitehorn",
+    "name": "Whitehorn",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.088774,
+    "longitude": -113.970054
+  },
+  "thorncliffe": {
+    "slug": "thorncliffe",
+    "name": "Thorncliffe",
+    "quadrant": "NORTH",
+    "latitude": 51.103689,
+    "longitude": -114.06793
+  },
+  "rundle": {
+    "slug": "rundle",
+    "name": "Rundle",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.074243,
+    "longitude": -113.970065
+  },
+  "huntington-hills": {
+    "slug": "huntington-hills",
+    "name": "Huntington Hills",
+    "quadrant": "NORTH",
+    "latitude": 51.118346,
+    "longitude": -114.067669
+  },
+  "west-hillhurst": {
+    "slug": "west-hillhurst",
+    "name": "West Hillhurst",
+    "quadrant": "CENTRE",
+    "latitude": 51.054312,
+    "longitude": -114.114526
+  },
+  "scarboro": {
+    "slug": "scarboro",
+    "name": "Scarboro",
+    "quadrant": "CENTRE",
+    "latitude": 51.040174,
+    "longitude": -114.106803
+  },
+  "sunalta": {
+    "slug": "sunalta",
+    "name": "Sunalta",
+    "quadrant": "CENTRE",
+    "latitude": 51.044115,
+    "longitude": -114.102221
+  },
+  "shaganappi": {
+    "slug": "shaganappi",
+    "name": "Shaganappi",
+    "quadrant": "CENTRE",
+    "latitude": 51.043694,
+    "longitude": -114.126158
+  },
+  "panorama-hills": {
+    "slug": "panorama-hills",
+    "name": "Panorama Hills",
+    "quadrant": "NORTH",
+    "latitude": 51.16122,
+    "longitude": -114.085042
+  },
+  "mckenzie-towne": {
+    "slug": "mckenzie-towne",
+    "name": "Mckenzie Towne",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.915541,
+    "longitude": -113.964967
+  },
+  "cougar-ridge": {
+    "slug": "cougar-ridge",
+    "name": "Cougar Ridge",
+    "quadrant": "WEST",
+    "latitude": 51.071117,
+    "longitude": -114.208745
+  },
+  "chaparral": {
+    "slug": "chaparral",
+    "name": "Chaparral",
+    "quadrant": "SOUTH",
+    "latitude": 50.885145,
+    "longitude": -114.027353
+  },
+  "coventry-hills": {
+    "slug": "coventry-hills",
+    "name": "Coventry Hills",
+    "quadrant": "NORTH",
+    "latitude": 51.165851,
+    "longitude": -114.05112
+  },
+  "taradale": {
+    "slug": "taradale",
+    "name": "Taradale",
+    "quadrant": "NORTHEAST",
+    "latitude": 51.117756,
+    "longitude": -113.933635
+  },
+  "new-brighton": {
+    "slug": "new-brighton",
+    "name": "New Brighton",
+    "quadrant": "SOUTHEAST",
+    "latitude": 50.921626,
+    "longitude": -113.946142
+  },
+  "sherwood": {
+    "slug": "sherwood",
+    "name": "Sherwood",
+    "quadrant": "NORTH",
+    "latitude": 51.15951,
+    "longitude": -114.153194
+  },
+  "rocky-ridge": {
+    "slug": "rocky-ridge",
+    "name": "Rocky Ridge",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.146264,
+    "longitude": -114.244681
+  },
+  "bridlewood": {
+    "slug": "bridlewood",
+    "name": "Bridlewood",
+    "quadrant": "SOUTH",
+    "latitude": 50.900058,
+    "longitude": -114.111674
+  },
+  "tuscany": {
+    "slug": "tuscany",
+    "name": "Tuscany",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.122372,
+    "longitude": -114.243896
+  },
+  "royal-oak": {
+    "slug": "royal-oak",
+    "name": "Royal Oak",
+    "quadrant": "NORTHWEST",
+    "latitude": 51.143938,
+    "longitude": -114.222732
+  },
+  "evergreen": {
+    "slug": "evergreen",
+    "name": "Evergreen",
+    "quadrant": "SOUTH",
+    "latitude": 50.916957,
+    "longitude": -114.114241
+  },
+  "country-hills-village": {
+    "slug": "country-hills-village",
+    "name": "Country Hills Village",
+    "quadrant": "NORTH",
+    "latitude": 51.157753,
+    "longitude": -114.060926
+  },
+  "scarboro-sunalta-west": {
+    "slug": "scarboro-sunalta-west",
+    "name": "Scarboro/Sunalta West",
+    "quadrant": "CENTRE",
+    "latitude": 51.042069,
+    "longitude": -114.115302
+  },
+  "medicine-hill": {
+    "slug": "medicine-hill",
+    "name": "Medicine Hill",
+    "quadrant": "WEST",
+    "latitude": 51.078564,
+    "longitude": -114.199492
+  },
+  "walden": {
+    "slug": "walden",
+    "name": "Walden",
+    "quadrant": "SOUTH",
+    "latitude": 50.869734,
+    "longitude": -114.025854
+  },
+  "ambleridge": {
+    "slug": "ambleridge",
+    "name": "Ambleridge",
+    "quadrant": "NORTH",
+    "latitude": 51.192057,
+    "longitude": -114.133802
+  }
+}

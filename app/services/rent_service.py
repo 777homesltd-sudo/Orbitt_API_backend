@@ -15,9 +15,27 @@ Format: community_key -> {bedrooms: (low, avg, high)}
   - community_key: lowercase, spaces stripped to match DDF CommunityName
 """
 
+import json
+import math
+import os
 from typing import Dict, Optional, Tuple
 from app.models.schemas import RentInsightResponse
 from datetime import datetime
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GEOCODES — 222 Calgary community centroids (lat/lng)
+# Used for proximity fallback when CommunityName is blank or unknown
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _load_geocodes() -> Dict[str, dict]:
+    path = os.path.join(os.path.dirname(__file__), "..", "data", "community_geocodes.json")
+    try:
+        with open(os.path.normpath(path)) as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+COMMUNITY_GEOCODES: Dict[str, dict] = _load_geocodes()
 
 RENT_DATA_VINTAGE = "2026-04"  # Update when data is refreshed
 
@@ -371,6 +389,259 @@ CALGARY_RENT_DATA: Dict[str, Dict[int, Tuple[float, float, float]]] = {
         2: (1700, 1928, 2100),
         3: (2000, 2250, 2500),
     },
+    # SOUTH communities (same quadrant as Silverado/Chaparral/Legacy)
+    "Bridlewood": {
+        1: (1400, 1580, 1750),
+        2: (1700, 1920, 2150),
+        3: (2100, 2350, 2600),
+    },
+    "Evergreen": {
+        1: (1420, 1600, 1780),
+        2: (1720, 1950, 2200),
+        3: (2150, 2400, 2650),
+    },
+    "Shawnessy": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2050, 2280, 2550),
+    },
+    "Sundance": {
+        1: (1380, 1560, 1730),
+        2: (1680, 1900, 2130),
+        3: (2100, 2330, 2580),
+    },
+    "Somerset": {
+        1: (1350, 1520, 1700),
+        2: (1630, 1850, 2080),
+        3: (2000, 2250, 2500),
+    },
+    "Midnapore": {
+        1: (1380, 1560, 1730),
+        2: (1680, 1900, 2130),
+        3: (2100, 2330, 2580),
+    },
+    "Millrise": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2000, 2250, 2500),
+    },
+    "Shawnee Slopes": {
+        1: (1400, 1580, 1750),
+        2: (1700, 1920, 2150),
+        3: (2100, 2350, 2600),
+    },
+    "Canyon Meadows": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2000, 2250, 2500),
+    },
+    "Acadia": {
+        1: (1300, 1480, 1650),
+        2: (1600, 1820, 2050),
+        3: (1950, 2200, 2450),
+    },
+    "Cedarbrae": {
+        1: (1300, 1480, 1650),
+        2: (1600, 1820, 2050),
+        3: (1950, 2200, 2450),
+    },
+    "Fairview": {
+        1: (1300, 1480, 1650),
+        2: (1580, 1800, 2030),
+        3: (1950, 2180, 2430),
+    },
+    "Willow Park": {
+        1: (1380, 1560, 1730),
+        2: (1680, 1900, 2130),
+        3: (2100, 2330, 2580),
+    },
+    "Lake Bonavista": {
+        1: (1420, 1600, 1780),
+        2: (1720, 1950, 2200),
+        3: (2200, 2450, 2700),
+    },
+    "Woodbine": {
+        1: (1380, 1560, 1730),
+        2: (1680, 1900, 2130),
+        3: (2100, 2330, 2580),
+    },
+    "Woodlands": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2000, 2250, 2500),
+    },
+    "Palliser": {
+        1: (1400, 1580, 1750),
+        2: (1700, 1920, 2150),
+        3: (2100, 2350, 2600),
+    },
+    "Pump Hill": {
+        1: (1500, 1700, 1900),
+        2: (1850, 2100, 2400),
+        3: (2400, 2700, 3200),
+    },
+    "Yorkville": {
+        1: (1350, 1520, 1700),
+        2: (1630, 1850, 2080),
+        3: (2000, 2250, 2500),
+    },
+    "Belmont": {
+        1: (1350, 1520, 1700),
+        2: (1630, 1850, 2080),
+        3: (2000, 2250, 2500),
+    },
+    "Wolf Willow": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2000, 2250, 2500),
+    },
+    # WEST communities
+    "Aspen Woods": {
+        1: (1600, 1820, 2050),
+        2: (1950, 2200, 2500),
+        3: (2500, 2850, 3300),
+    },
+    "Coach Hill": {
+        1: (1450, 1650, 1850),
+        2: (1800, 2030, 2280),
+        3: (2200, 2500, 2800),
+    },
+    "Cougar Ridge": {
+        1: (1450, 1640, 1830),
+        2: (1800, 2020, 2270),
+        3: (2200, 2480, 2780),
+    },
+    "Discovery Ridge": {
+        1: (1500, 1700, 1900),
+        2: (1850, 2100, 2350),
+        3: (2300, 2600, 2950),
+    },
+    "Springbank Hill": {
+        1: (1550, 1750, 1950),
+        2: (1900, 2150, 2400),
+        3: (2400, 2700, 3100),
+    },
+    "West Springs": {
+        1: (1550, 1750, 1950),
+        2: (1900, 2150, 2400),
+        3: (2400, 2700, 3100),
+    },
+    "Glenbrook": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2000, 2250, 2500),
+    },
+    "Glendale": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2000, 2250, 2500),
+    },
+    "Rosscarrock": {
+        1: (1300, 1480, 1650),
+        2: (1600, 1820, 2050),
+        3: (1950, 2200, 2450),
+    },
+    "Wildwood": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2000, 2250, 2500),
+    },
+    "Patterson": {
+        1: (1450, 1640, 1830),
+        2: (1800, 2020, 2270),
+        3: (2200, 2480, 2780),
+    },
+    "Valley Ridge": {
+        1: (1450, 1640, 1830),
+        2: (1800, 2020, 2270),
+        3: (2200, 2480, 2780),
+    },
+    "Strathcona Park": {
+        1: (1500, 1700, 1900),
+        2: (1850, 2100, 2350),
+        3: (2300, 2600, 2950),
+    },
+    "Christie Park": {
+        1: (1500, 1700, 1900),
+        2: (1850, 2100, 2350),
+        3: (2300, 2600, 2950),
+    },
+    "Garrison Green": {
+        1: (1500, 1700, 1900),
+        2: (1900, 2150, 2400),
+        3: (2350, 2650, 3000),
+    },
+    "Currie Barracks": {
+        1: (1600, 1820, 2050),
+        2: (2000, 2250, 2550),
+        3: (2500, 2850, 3300),
+    },
+    "Lincoln Park": {
+        1: (1450, 1640, 1830),
+        2: (1800, 2020, 2270),
+        3: (2200, 2480, 2780),
+    },
+    # NORTHWEST communities
+    "Arbour Lake": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2000, 2250, 2500),
+    },
+    "Charleswood": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2000, 2250, 2500),
+    },
+    "Citadel": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2000, 2250, 2500),
+    },
+    "Collingwood": {
+        1: (1380, 1560, 1730),
+        2: (1680, 1900, 2130),
+        3: (2100, 2330, 2580),
+    },
+    "Edgemont": {
+        1: (1380, 1560, 1730),
+        2: (1680, 1900, 2130),
+        3: (2100, 2330, 2580),
+    },
+    "Hamptons": {
+        1: (1400, 1600, 1780),
+        2: (1720, 1950, 2200),
+        3: (2200, 2470, 2750),
+    },
+    "Hawkwood": {
+        1: (1380, 1560, 1730),
+        2: (1680, 1900, 2130),
+        3: (2100, 2330, 2580),
+    },
+    "Ranchlands": {
+        1: (1300, 1480, 1650),
+        2: (1600, 1820, 2050),
+        3: (1950, 2200, 2450),
+    },
+    "Rocky Ridge": {
+        1: (1380, 1570, 1750),
+        2: (1700, 1930, 2180),
+        3: (2150, 2400, 2680),
+    },
+    "Scenic Acres": {
+        1: (1350, 1530, 1700),
+        2: (1650, 1870, 2100),
+        3: (2000, 2250, 2500),
+    },
+    "Silver Springs": {
+        1: (1380, 1560, 1730),
+        2: (1680, 1900, 2130),
+        3: (2100, 2330, 2580),
+    },
+    "University District": {
+        1: (1550, 1750, 1950),
+        2: (1900, 2150, 2400),
+        3: (2350, 2650, 3000),
+    },
 
     # ── Northeast (NE) ────────────────────────────────────────────────────────
     "Saddle Ridge": {
@@ -663,6 +934,16 @@ SW_COMMUNITIES = {
     "Britannia", "Kingsland", "Haysboro", "Oakridge", "Braeside",
     "Glamorgan", "Lakeview", "Signal Hill", "Chinook Park", "Southwood",
     "Applewood Park",
+    # SOUTH
+    "Bridlewood", "Evergreen", "Shawnessy", "Sundance", "Somerset",
+    "Midnapore", "Millrise", "Shawnee Slopes", "Canyon Meadows", "Acadia",
+    "Cedarbrae", "Fairview", "Willow Park", "Lake Bonavista", "Woodbine",
+    "Woodlands", "Palliser", "Pump Hill", "Yorkville", "Belmont", "Wolf Willow",
+    # WEST
+    "Aspen Woods", "Coach Hill", "Cougar Ridge", "Discovery Ridge",
+    "Springbank Hill", "West Springs", "Glenbrook", "Glendale", "Rosscarrock",
+    "Wildwood", "Patterson", "Valley Ridge", "Strathcona Park", "Christie Park",
+    "Garrison Green", "Currie Barracks", "Lincoln Park",
 }
 
 NW_COMMUNITIES = {
@@ -671,6 +952,9 @@ NW_COMMUNITIES = {
     "Panorama Hills", "Sherwood", "Kincora", "Carrington",
     "Country Hills", "Country Hills Village", "Coventry Hills",
     "Beddington Heights", "Thorncliffe", "Huntington Hills",
+    "Arbour Lake", "Charleswood", "Citadel", "Collingwood", "Edgemont",
+    "Hamptons", "Hawkwood", "Ranchlands", "Rocky Ridge", "Scenic Acres",
+    "Silver Springs", "University District",
 }
 
 SE_COMMUNITIES = {
@@ -679,6 +963,35 @@ SE_COMMUNITIES = {
     "Quarry Park", "Douglasdale", "Riverbend", "Forest Lawn", "Albert Park",
     "Silverado",
 }
+
+
+def _nearest_community(lat: float, lng: float, known_communities: set) -> Optional[str]:
+    """
+    Given a lat/lng, find the closest Calgary community centroid
+    that exists in known_communities (i.e. has rent data).
+    Returns the community name string, or None if geocodes unavailable.
+    """
+    if not COMMUNITY_GEOCODES or not lat or not lng:
+        return None
+
+    best_name: Optional[str] = None
+    best_dist = float("inf")
+
+    for entry in COMMUNITY_GEOCODES.values():
+        name = entry.get("name", "")
+        if name not in known_communities:
+            continue
+        clat = entry.get("latitude")
+        clng = entry.get("longitude")
+        if clat is None or clng is None:
+            continue
+        # Euclidean distance on lat/lng is fine at city scale
+        dist = math.sqrt((lat - clat) ** 2 + (lng - clng) ** 2)
+        if dist < best_dist:
+            best_dist = dist
+            best_name = name
+
+    return best_name
 
 
 def _get_yoy(community: str) -> float:
@@ -702,11 +1015,17 @@ class RentInsightService:
         property_type: str = "Apartment",
         square_footage: Optional[float] = None,
         city: str = "Calgary",
+        latitude: Optional[float] = None,
+        longitude: Optional[float] = None,
     ) -> RentInsightResponse:
         """
         Return rent range for a community + bedroom combo.
         Routes by city first, then community within that city.
-        Falls back to city-wide defaults if community not found.
+
+        Fallback chain (Calgary):
+          1. Exact community name match
+          2. Proximity match via lat/lng centroid (if coords provided)
+          3. City-wide bedroom average
         """
         community_normalized = community.strip().title()
         city_key = city.lower().strip()
@@ -714,6 +1033,7 @@ class RentInsightService:
         # Get the right city dataset
         city_data = CITY_RENT_MAP.get(city_key, CALGARY_RENT_DATA)
         community_data = city_data.get(community_normalized, {})
+        proximity_used: Optional[str] = None
 
         # Try _default key for non-Calgary cities if community not found
         if not community_data and "_default" in city_data:
@@ -722,9 +1042,16 @@ class RentInsightService:
         elif community_data:
             found = True
         else:
-            # Calgary fallback
-            community_data = {}
+            # Calgary: try proximity fallback before giving up
             found = False
+            if city_key == "calgary" and latitude and longitude:
+                known = set(CALGARY_RENT_DATA.keys())
+                nearest = _nearest_community(latitude, longitude, known)
+                if nearest:
+                    community_data = CALGARY_RENT_DATA.get(nearest, {})
+                    proximity_used = nearest
+            if not community_data:
+                community_data = {}
 
         rent_range = community_data.get(bedrooms)
 
@@ -762,9 +1089,16 @@ class RentInsightService:
             avg = round(avg * (1 + premium))
             high = round(high * (1 + premium))
 
-        yoy = _get_yoy(community_normalized) if city_key == "calgary" else YOY_CHANGE["suburban"]
+        yoy_community = proximity_used if proximity_used else community_normalized
+        yoy = _get_yoy(yoy_community) if city_key == "calgary" else YOY_CHANGE["suburban"]
 
-        label = community_normalized if found else f"{community_normalized} (est.)"
+        if found:
+            label = community_normalized
+        elif proximity_used:
+            label = f"{community_normalized or 'Unknown'} → {proximity_used} (nearest)"
+        else:
+            label = f"{community_normalized} (est.)" if community_normalized else "Calgary (city default)"
+
         return RentInsightResponse(
             community=label,
             bedrooms=bedrooms,
