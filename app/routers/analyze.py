@@ -62,23 +62,23 @@ def _estimate_monthly_rent(
     property_type: str,
     square_footage: Optional[float],
     purchase_price: float,
+    city: str = "Calgary",
 ) -> tuple[float, str]:
     """
     LTR rent estimate via rent_service community + bedroom lookup.
-    Falls back to the 0.5% rule only if community is blank.
+    Routes by city, then community. Falls back to city-wide default,
+    then price rule only if city is unknown.
     Returns (monthly_rent, source_label).
     """
-    if community:
-        insight = rent_service.get_rent_estimate(
-            community=community,
-            bedrooms=bedrooms,
-            property_type=property_type,
-            square_footage=square_footage,
-        )
-        source = "community_benchmark" if community in insight.community else "calgary_default"
-        return insight.avg_rent, source
-    # Last resort: price-based rule
-    return round(purchase_price * 0.005, 2), "price_rule_0.5pct"
+    insight = rent_service.get_rent_estimate(
+        community=community or "",
+        bedrooms=bedrooms,
+        property_type=property_type,
+        square_footage=square_footage,
+        city=city,
+    )
+    source = "community_benchmark" if community and community in insight.community else "city_default"
+    return insight.avg_rent, source
 
 
 @router.post("/listing", response_model=AnalyzeListingResponse)
@@ -178,6 +178,7 @@ async def analyze_listing(
             property_type=property_details.property_type or "Apartment",
             square_footage=property_details.square_footage,
             purchase_price=property_details.list_price,
+            city=property_details.city or "Calgary",
         )
     logger.info(f"LTR rent estimate: ${monthly_rent}/mo (source: {rent_source})")
 
