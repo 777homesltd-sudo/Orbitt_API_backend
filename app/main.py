@@ -93,6 +93,22 @@ app.include_router(neighborhood.router, prefix="/neighborhood", tags=["Neighborh
 app.include_router(creb.router,         prefix="/creb",         tags=["CREB Reports"])
 app.include_router(reports.router,      prefix="/reports",      tags=["Reports & PDF"])
 
+# ── Debug endpoint (safe — shows only booleans, no secret values) ─────────────
+@app.get("/debug/env", tags=["Health"], include_in_schema=False)
+async def debug_env():
+    """Confirm which env vars are actually set on Railway (values masked)."""
+    return {
+        "APP_ENV": settings.APP_ENV,
+        "DDF_CLIENT_ID_set": bool(settings.DDF_CLIENT_ID),
+        "DDF_CLIENT_SECRET_set": bool(settings.DDF_CLIENT_SECRET),
+        "DDF_TOKEN_ENDPOINT": settings.DDF_TOKEN_ENDPOINT,
+        "SUPABASE_URL_set": bool(settings.SUPABASE_URL),
+        "SUPABASE_SERVICE_ROLE_KEY_set": bool(settings.SUPABASE_SERVICE_ROLE_KEY),
+        "AIRREV_API_KEY_set": bool(settings.AIRREV_API_KEY and settings.AIRREV_API_KEY != "change-me-in-production"),
+        "AIRROI_API_KEY_set": bool(settings.AIRROI_API_KEY),
+    }
+
+
 # ── Root endpoints ────────────────────────────────────────────
 @app.get("/", tags=["Health"], include_in_schema=False)
 async def root():
