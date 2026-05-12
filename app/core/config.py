@@ -13,7 +13,7 @@ class Settings(BaseSettings):
 
     # --- CREA DDF ---
     DDF_API_URL: str = "https://ddfapi.realtor.ca/odata/v1"
-    DDF_TOKEN_ENDPOINT: str = "https://api.crea.ca/oauth2/token"
+    DDF_TOKEN_ENDPOINT: str = "https://identity.crea.ca/connect/token"
     DDF_CLIENT_ID: str = ""
     DDF_CLIENT_SECRET: str = ""
 
