@@ -110,7 +110,6 @@ class DDFService:
             params = {
                 "$filter": filter_query,
                 "$top": 1,
-                "$expand": "Media",
             }
 
             async with httpx.AsyncClient(timeout=15.0) as client:
