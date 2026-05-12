@@ -69,13 +69,44 @@ class InvestmentCalculator:
     # PROPERTY TAX ESTIMATE
     # ──────────────────────────────────────
 
-    def estimate_property_tax(self, purchase_price: float, community: str = "") -> float:
+    # Mill rates (residential, 2025) and assessment ratios by city
+    # Source: municipal budget documents. Update annually.
+    # Format: city_key -> (mill_rate, assessment_ratio)
+    CITY_TAX_PARAMS: dict = {
+        "calgary":    (0.0099, 0.90),
+        "edmonton":   (0.0098, 0.90),
+        "airdrie":    (0.0062, 0.90),
+        "chestermere":(0.0070, 0.90),
+        "okotoks":    (0.0075, 0.90),
+        "red deer":   (0.0110, 0.90),
+        "lethbridge": (0.0115, 0.90),
+        "canmore":    (0.0045, 0.90),
+        "kelowna":    (0.0042, 0.85),
+        "vancouver":  (0.0026, 1.00),
+        "victoria":   (0.0038, 1.00),
+        "toronto":    (0.0067, 1.00),
+        "ottawa":     (0.0101, 1.00),
+        "montreal":   (0.0111, 1.00),
+        "halifax":    (0.0122, 0.90),
+    }
+
+    def estimate_property_tax(
+        self,
+        purchase_price: float,
+        community: str = "",
+        city: str = "Calgary",
+    ) -> float:
         """
-        Calgary 2024 residential mill rate ≈ 0.99% of assessed value.
-        Assessed value is typically 85-95% of market value.
+        City-aware property tax estimate using residential mill rates.
+        Falls back to Calgary rate if city not in lookup table.
         """
-        assessed_value = purchase_price * 0.90  # 90% of purchase as assessed
-        return round(assessed_value * self.cfg.DEFAULT_PROPERTY_TAX_RATE, 2)
+        city_key = city.lower().strip()
+        mill_rate, assessment_ratio = self.CITY_TAX_PARAMS.get(
+            city_key,
+            (self.cfg.DEFAULT_PROPERTY_TAX_RATE, 0.90),  # Calgary fallback
+        )
+        assessed_value = purchase_price * assessment_ratio
+        return round(assessed_value * mill_rate, 2)
 
     # ──────────────────────────────────────
     # LTR ANALYSIS
@@ -97,7 +128,7 @@ class InvestmentCalculator:
         egi = annual_gross - vacancy_allowance  # Effective Gross Income
 
         # Expenses
-        property_tax = self.estimate_property_tax(price, property.community)
+        property_tax = self.estimate_property_tax(price, property.community, property.city)
         insurance = price * 0.003             # ~0.3% for LTR landlord insurance
         maintenance = price * 0.01            # 1% rule for maintenance reserve
         mgmt_fee = egi * self.cfg.DEFAULT_MANAGEMENT_FEE_LTR
@@ -172,7 +203,7 @@ class InvestmentCalculator:
         # Expenses (STR has more ops costs)
         airbnb_fee = egi * self.cfg.DEFAULT_AIRBNB_HOST_FEE
         cleaning = egi * clean_pct                   # 10% of revenue by default
-        property_tax = self.estimate_property_tax(price, property.community)
+        property_tax = self.estimate_property_tax(price, property.community, property.city)
         insurance = price * 0.005                    # STR insurance ~0.5% (higher than LTR)
         maintenance = price * 0.015                  # Higher wear and tear
         mgmt_fee = egi * mgmt_pct                    # 25% cohost commission by default

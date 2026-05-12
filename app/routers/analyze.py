@@ -28,6 +28,7 @@ from app.services.ddf_service import ddf_service
 from app.services.calculator_service import calculator
 from app.services.supabase_service import supabase
 from app.services.airroi_service import airroi
+from app.services.rent_service import rent_service
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -55,12 +56,29 @@ def _avg(values: list) -> Optional[float]:
     return sum(valid) / len(valid) if valid else None
 
 
-def _estimate_monthly_rent(purchase_price: float) -> float:
+def _estimate_monthly_rent(
+    community: str,
+    bedrooms: int,
+    property_type: str,
+    square_footage: Optional[float],
+    purchase_price: float,
+) -> tuple[float, str]:
     """
-    Fallback LTR rent estimate when rent_service isn't available.
-    Uses the 0.5% rule (monthly rent ≈ 0.5% of purchase price for Canadian markets).
+    LTR rent estimate via rent_service community + bedroom lookup.
+    Falls back to the 0.5% rule only if community is blank.
+    Returns (monthly_rent, source_label).
     """
-    return round(purchase_price * 0.005, 2)
+    if community:
+        insight = rent_service.get_rent_estimate(
+            community=community,
+            bedrooms=bedrooms,
+            property_type=property_type,
+            square_footage=square_footage,
+        )
+        source = "community_benchmark" if community in insight.community else "calgary_default"
+        return insight.avg_rent, source
+    # Last resort: price-based rule
+    return round(purchase_price * 0.005, 2), "price_rule_0.5pct"
 
 
 @router.post("/listing", response_model=AnalyzeListingResponse)
@@ -150,11 +168,18 @@ async def analyze_listing(
     # ──────────────────────────────────────
     # 5. LTR ANALYSIS
     # ──────────────────────────────────────
-    monthly_rent = (
-        request.monthly_rent_override
-        if request.monthly_rent_override
-        else _estimate_monthly_rent(property_details.list_price)
-    )
+    if request.monthly_rent_override:
+        monthly_rent = request.monthly_rent_override
+        rent_source = "user_override"
+    else:
+        monthly_rent, rent_source = _estimate_monthly_rent(
+            community=property_details.community or "",
+            bedrooms=property_details.bedrooms or 2,
+            property_type=property_details.property_type or "Apartment",
+            square_footage=property_details.square_footage,
+            purchase_price=property_details.list_price,
+        )
+    logger.info(f"LTR rent estimate: ${monthly_rent}/mo (source: {rent_source})")
 
     ltr_analysis = None
     if request.analysis_type in (AnalysisType.LTR, AnalysisType.BOTH):
@@ -182,7 +207,9 @@ async def analyze_listing(
             if request.nightly_rate_override
             else (avg_rate if avg_rate else 200.0)
         )
-        occupancy_rate = avg_occ if avg_occ else 0.65
+        # Fall back to config default (1 - DEFAULT_VACANCY_RATE_STR = 0.70)
+        from app.core.config import settings
+        occupancy_rate = avg_occ if avg_occ else (1.0 - settings.DEFAULT_VACANCY_RATE_STR)
 
         str_analysis = calculator.calculate_str(
             property=property_details,
