@@ -2,7 +2,7 @@
 AirRev Engine — Rent Insight Service
 LTR rent estimates by community + bedroom count
 
-Data source: Calgary Community Rent Breakdown (April 2026) + Airdrie/Chestermere/Okotoks
+Data source: Calgary Community Rent Breakdown (May 2026) + Airdrie/Chestermere/Okotoks
              Rent Report (May 2026). Compiled from RentFaster, Zumper, Apartments.com,
              liv.rent, CMHC, and active listing data.
 
@@ -37,17 +37,18 @@ def _load_geocodes() -> Dict[str, dict]:
 
 COMMUNITY_GEOCODES: Dict[str, dict] = _load_geocodes()
 
-RENT_DATA_VINTAGE = "2026-04"  # Update when data is refreshed
+RENT_DATA_VINTAGE = "2026-05"  # Update when data is refreshed
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# CALGARY — 80+ communities, April 2026
-# Sources: liv.rent, RentFaster, Zumper, Apartments.com, CMHC
+# CALGARY — 82 communities, May 2026
+# Sources: Zumper (May 16 2026), liv.rent, RentFaster, Apartments.com, CMHC
 # ─────────────────────────────────────────────────────────────────────────────
 
 CALGARY_RENT_DATA: Dict[str, Dict[int, Tuple[float, float, float]]] = {
 
     # ── City Centre / Inner City ──────────────────────────────────────────────
+    # Updated to Zumper May 2026 for Bridgeland, Mission, Downtown Calgary (new), Shaganappi (new)
     "Downtown East Village": {
         1: (1800, 2136, 2200),
         2: (2200, 2650, 3100),
@@ -62,6 +63,12 @@ CALGARY_RENT_DATA: Dict[str, Dict[int, Tuple[float, float, float]]] = {
         1: (1500, 1625, 1750),
         2: (1900, 2150, 2400),
     },
+    "Downtown Calgary": {
+        0: (1250, 1450, 1700),
+        1: (1700, 1950, 2100),  # Zumper May 2026: avg $1,950 (new entry)
+        2: (2100, 2400, 2700),
+        3: (2800, 3200, 3800),
+    },
     "Beltline": {
         0: (1400, 1650, 1950),
         1: (1600, 1871, 2000),
@@ -75,7 +82,7 @@ CALGARY_RENT_DATA: Dict[str, Dict[int, Tuple[float, float, float]]] = {
     },
     "Mission": {
         0: (1350, 1550, 1850),
-        1: (1700, 1955, 2100),
+        1: (1600, 1847, 2050),  # Zumper May 2026: avg $1,847 (-$108 vs Apr)
         2: (2100, 2450, 2800),
         3: (2800, 3150, 3500),
     },
@@ -85,6 +92,11 @@ CALGARY_RENT_DATA: Dict[str, Dict[int, Tuple[float, float, float]]] = {
         2: (2200, 2450, 2700),
         3: (2800, 3150, 3500),
     },
+    "Shaganappi": {
+        1: (1600, 1887, 2050),  # Zumper May 2026: avg $1,887 (new entry)
+        2: (1900, 2150, 2400),
+        3: (2300, 2600, 2900),
+    },
     "Hillhurst": {
         1: (1900, 1950, 2000),
         2: (2200, 2450, 2700),
@@ -92,7 +104,7 @@ CALGARY_RENT_DATA: Dict[str, Dict[int, Tuple[float, float, float]]] = {
     },
     "Bridgeland": {
         0: (1300, 1500, 1800),
-        1: (1530, 1885, 2000),
+        1: (1700, 2051, 2200),  # Zumper May 2026: avg $2,051 (+$166 vs Apr)
         2: (1900, 2330, 2760),
         3: (2850, 3175, 3500),
     },
@@ -232,7 +244,8 @@ CALGARY_RENT_DATA: Dict[str, Dict[int, Tuple[float, float, float]]] = {
         2: (1400, 1600, 1800),
     },
 
-    # ── Northwest (NW) ────────────────────────────────────────────────────────
+    # ── Northwest (NW) ──────────────────────────────────────────────
+    # Sage Hill avg updated to Zumper May 2026
     "Varsity": {
         1: (1499, 1875, 2000),
         2: (1819, 2057, 2200),
@@ -272,7 +285,7 @@ CALGARY_RENT_DATA: Dict[str, Dict[int, Tuple[float, float, float]]] = {
     },
     "Sage Hill": {
         0: (1200, 1322, 1500),
-        1: (1322, 1710, 1985),
+        1: (1500, 1917, 2100),  # Zumper May 2026: avg $1,917 (+$117 vs Apr)
         2: (1704, 2033, 2040),
         3: (2095, 2223, 2350),
     },
@@ -495,7 +508,7 @@ CALGARY_RENT_DATA: Dict[str, Dict[int, Tuple[float, float, float]]] = {
         2: (1650, 1870, 2100),
         3: (2000, 2250, 2500),
     },
-    # WEST communities
+    # WEST communities — Springbank Hill updated to Zumper May 2026
     "Aspen Woods": {
         1: (1600, 1820, 2050),
         2: (1950, 2200, 2500),
@@ -517,9 +530,9 @@ CALGARY_RENT_DATA: Dict[str, Dict[int, Tuple[float, float, float]]] = {
         3: (2300, 2600, 2950),
     },
     "Springbank Hill": {
-        1: (1550, 1750, 1950),
-        2: (1900, 2150, 2400),
-        3: (2400, 2700, 3100),
+        1: (1950, 2250, 2550),  # Zumper May 2026: avg $2,250 (+$150 vs Apr)
+        2: (2100, 2400, 2700),
+        3: (2600, 2950, 3300),
     },
     "West Springs": {
         1: (1550, 1750, 1950),
@@ -902,11 +915,11 @@ CITY_RENT_MAP = {
 
 # Calgary-wide fallback by bedroom (used when community not found in Calgary table)
 CALGARY_DEFAULT_BY_BEDROOM: Dict[int, Tuple[float, float, float]] = {
-    0: (1100, 1322, 1600),
-    1: (1320, 1530, 1800),   # April 2026 Calgary city-wide avg ~$1,440 (liv.rent)
-    2: (1650, 1907, 2200),   # Calgary 2-bed avg ~$1,907 (RentFaster)
-    3: (2000, 2236, 2600),   # Calgary 3-bed avg ~$2,236 (RentFaster)
-    4: (2600, 3000, 3800),
+    0: (1100, 1399, 1700),   # Zumper May 2026: studio avg $1,399
+    1: (1320, 1604, 1900),   # Zumper May 2026: 1-bed avg $1,604
+    2: (1650, 1950, 2300),   # Zumper May 2026: 2-bed avg $1,950
+    3: (2000, 2299, 2600),   # Zumper May 2026: 3-bed avg $2,299
+    4: (2600, 3200, 3900),   # Zumper May 2026: 4-bed avg $3,200
 }
 
 # YoY rent change estimates by area type (April 2026 data)
@@ -922,6 +935,7 @@ YOY_CHANGE = {
 
 INNER_CITY_COMMUNITIES = {
     "Beltline", "Downtown East Village", "Downtown Commercial Core",
+    "Downtown Calgary",
     "Eau Claire", "Mission", "Kensington", "Hillhurst", "Bridgeland",
     "Inglewood", "Ramsay", "Cliff Bungalow", "Chinatown",
     "Bankview", "Sunalta", "Lower Mount Royal", "Upper Mount Royal",
@@ -948,6 +962,7 @@ SW_COMMUNITIES = {
 
 NW_COMMUNITIES = {
     "Varsity", "Brentwood", "Dalhousie", "Bowness", "Montgomery",
+    "Shaganappi",
     "Royal Oak", "Tuscany", "Sage Hill", "Evanston", "Nolan Hill",
     "Panorama Hills", "Sherwood", "Kincora", "Carrington",
     "Country Hills", "Country Hills Village", "Coventry Hills",
