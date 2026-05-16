@@ -77,3 +77,64 @@ async def list_communities(_: bool = Depends(require_api_key)):
         "communities": sorted(list(CALGARY_RENT_DATA.keys())),
         "note": "Add more communities via Supabase community_insights table"
     }
+
+
+# ── Public neighbourhood guide endpoints (no API key required) ────────────────
+import json, os as _os
+
+def _load_neighbourhoods():
+    path = _os.path.join(_os.path.dirname(__file__), "..", "data", "neighbourhoods.json")
+    with open(_os.path.normpath(path)) as f:
+        raw = json.load(f)
+    # raw is dict keyed by slug
+    return raw
+
+_NEIGHBOURHOODS: dict = {}
+
+def _get_neighbourhoods():
+    global _NEIGHBOURHOODS
+    if not _NEIGHBOURHOODS:
+        _NEIGHBOURHOODS = _load_neighbourhoods()
+    return _NEIGHBOURHOODS
+
+
+@router.get("/guide")
+async def neighbourhood_guide_list():
+    """
+    Returns all 224 Calgary neighbourhood summaries for search/filter UIs.
+    No API key required — public endpoint.
+    """
+    data = _get_neighbourhoods()
+    result = []
+    for slug, n in data.items():
+        result.append({
+            "slug": slug,
+            "name": n.get("name", ""),
+            "subtitle": n.get("subtitle", ""),
+            "quadrant": n.get("quadrant", ""),
+            "viability": n.get("viability", ""),
+            "nightly_rate_range": n.get("nightly_rate_range", ""),
+            "occupancy_range": n.get("occupancy_range", ""),
+            "estimated_yearly_revenue": n.get("estimated_yearly_revenue", ""),
+            "vibe_tags": n.get("vibe_tags", []),
+            "has_ltr": bool(n.get("ltr_description")),
+            "has_str_rates": bool(n.get("nightly_rate_range")),
+        })
+    return {"total": len(result), "neighbourhoods": result}
+
+
+@router.get("/guide/{slug}")
+async def neighbourhood_guide_detail(slug: str):
+    """
+    Full neighbourhood profile by slug.
+    No API key required — public endpoint.
+    """
+    data = _get_neighbourhoods()
+    n = data.get(slug)
+    if not n:
+        # Try case-insensitive match
+        slug_lower = slug.lower().replace(" ", "-")
+        n = next((v for k, v in data.items() if k.lower() == slug_lower), None)
+    if not n:
+        raise HTTPException(status_code=404, detail=f"Neighbourhood '{slug}' not found")
+    return n
