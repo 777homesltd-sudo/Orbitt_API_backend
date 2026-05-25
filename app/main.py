@@ -11,7 +11,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.routers import analyze, calculator, neighborhood, creb, reports
+from app.routers import analyze, calculator, neighborhood, creb, reports, amenity_intelligence
 from app.core.config import settings
 from app.core.cache import cache
 
@@ -92,6 +92,7 @@ app.include_router(calculator.router,   prefix="/calculator",   tags=["Calculato
 app.include_router(neighborhood.router, prefix="/neighborhood", tags=["Neighborhood"])
 app.include_router(creb.router,         prefix="/creb",         tags=["CREB Reports"])
 app.include_router(reports.router,      prefix="/reports",      tags=["Reports & PDF"])
+app.include_router(amenity_intelligence.router)
 
 # ── Root ─────────────────────────────────────────────────────
 @app.get("/", tags=["Health"], include_in_schema=False)
